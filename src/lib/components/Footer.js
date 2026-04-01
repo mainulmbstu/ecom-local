@@ -5,7 +5,7 @@ import { MdAddCall } from "react-icons/md";
 
 const Footer = () => {
   return (
-    <div className="min-h-[4vh] py-2 w-full bg-base-300  flex  justify-around fixed bottom-0 text-2xl  inset-shadow-sm inset-shadow-zinc-300 ">
+    <div className="min-h-[4vh] py-3 w-full bg-base-300  flex  justify-around fixed bottom-0 text-2xl  inset-shadow-sm inset-shadow-zinc-300 ">
       <Link href={"/"}>
         <BiHome />
       </Link>
