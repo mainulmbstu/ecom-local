@@ -65,8 +65,8 @@ const ProductModal = ({
       >
         {loading ? "Submitting" : title}
       </button>
-      <dialog ref={ref} id="my_modal_1" className="modal mt-30">
-        <div className="modal-box ">
+      <dialog ref={ref} id="my_modal_1" className="modal mt-30 ">
+        <div className="modal-box">
           <div className=" relative mb-25">
             <h3 className="text-lg font-bold">{title}</h3>
             <div className=" ms-2 flex justify-evenly">
@@ -211,7 +211,7 @@ const ProductModal = ({
                 </label>
                 <textarea
                   defaultValue={value?.description}
-                  rows="4"
+                  rows="10"
                   className="input"
                   type="text"
                   id="description"
@@ -222,13 +222,13 @@ const ProductModal = ({
               </div>
               <div className="">
                 <ProgressBar progress={progress} color={"bg-blue-400"} />
-                <SubmitButton title={"Submit"} design={"btn-accent"} />
+                <SubmitButton title={"Submit"} design={"btn-accent mb-4"} />
               </div>
             </Form>
             <form method="dialog">
               <button
                 type="submit"
-                className="btn btn-error absolute bottom-1 right-1"
+                className="btn btn-error absolute bottom-4 right-1"
               >
                 Close
               </button>
@@ -236,7 +236,7 @@ const ProductModal = ({
           </div>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-error absolute right-2 top-2">
+              <button className="btn btn-sm btn-circle btn-error absolute right-2 top-6">
                 ✕
               </button>
               {/* if there is a button in form, it will close the modal */}

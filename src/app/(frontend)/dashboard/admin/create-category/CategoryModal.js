@@ -67,7 +67,7 @@ const CategoryModal = ({
       >
         {loading ? "Submitting" : title}
       </button>
-      <dialog ref={ref} id="my_modal_1" className="modal mt-25 ">
+      <dialog ref={ref} id="my_modal_1" className="modal mt-15 ">
         <div className="modal-box">
           <div className="">
             <h3 className="text-lg font-bold">{title}</h3>
@@ -151,7 +151,7 @@ const CategoryModal = ({
           </div>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-error absolute right-2 top-2">
+              <button className="btn btn-sm btn-circle btn-error absolute right-2 top-5">
                 ✕
               </button>
               {/* if there is a button in form, it will close the modal */}
