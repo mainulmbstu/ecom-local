@@ -12,9 +12,12 @@ import { Axios } from "@/lib/helpers/AxiosInstance";
 import { useRouter } from "next/navigation";
 import ProgressBar from "@/lib/components/ProgressBar";
 
-
-const ProductModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-600' }) => {
-  let value = editItem && JSON.parse(editItem)
+const ProductModal = ({
+  editItem,
+  title = "Edit",
+  design = "btn-link text-blue-600",
+}) => {
+  let value = editItem && JSON.parse(editItem);
   let ref = useRef();
   let [loading, setLoading] = useState(false);
   let [picture, setPicture] = useState("");
@@ -24,7 +27,7 @@ const ProductModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-6
   // console.log(value);
 
   let clientAction = async (formData) => {
-    formData.append('id', value?._id || '');
+    formData.append("id", value?._id || "");
     try {
       setLoading(true);
       let { data } = await Axios.post("/api/admin/product", formData, {
@@ -47,7 +50,7 @@ const ProductModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-6
     } catch (err) {
       console.log(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -58,18 +61,24 @@ const ProductModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-6
         disabled={loading}
         className={`btn ${design} `}
         onClick={() => ref.current.showModal()}
-      // onClick={() => document.getElementById("my_modal_1").showModal()}
+        // onClick={() => document.getElementById("my_modal_1").showModal()}
       >
         {loading ? "Submitting" : title}
       </button>
-      <dialog ref={ref} id="my_modal_1" className="modal mt-20">
+      <dialog ref={ref} id="my_modal_1" className="modal mt-30">
         <div className="modal-box ">
-          <div className=" relative mb-15">
+          <div className=" relative mb-25">
             <h3 className="text-lg font-bold">{title}</h3>
             <div className=" ms-2 flex justify-evenly">
               <div className="pb-1">
                 <Image
-                  src={picture ? URL.createObjectURL(picture) : value ? value?.picture[0]?.secure_url : blogBanner}
+                  src={
+                    picture
+                      ? URL.createObjectURL(picture)
+                      : value
+                        ? value?.picture[0]?.secure_url
+                        : blogBanner
+                  }
                   alt="image"
                   className=" h-40 w-auto object-contain"
                   height={100}
@@ -217,7 +226,10 @@ const ProductModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-6
               </div>
             </Form>
             <form method="dialog">
-              <button type="submit" className="btn btn-error absolute bottom-1 right-1">
+              <button
+                type="submit"
+                className="btn btn-error absolute bottom-1 right-1"
+              >
                 Close
               </button>
             </form>

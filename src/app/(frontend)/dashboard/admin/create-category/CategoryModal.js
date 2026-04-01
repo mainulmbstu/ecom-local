@@ -67,7 +67,7 @@ const CategoryModal = ({
       >
         {loading ? "Submitting" : title}
       </button>
-      <dialog ref={ref} id="my_modal_1" className="modal ">
+      <dialog ref={ref} id="my_modal_1" className="modal mt-25 ">
         <div className="modal-box">
           <div className="">
             <h3 className="text-lg font-bold">{title}</h3>
