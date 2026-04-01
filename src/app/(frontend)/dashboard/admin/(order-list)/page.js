@@ -122,7 +122,7 @@ const Orders = async ({ searchParams }) => {
               {item?.products?.length &&
                 item?.products?.map((p, i) => {
                   return (
-                    <div key={i} className=" g-5 mb-2 bg-zinc-200">
+                    <div key={i} className=" g-5 mb-2 bg-base-200">
                       <div className="grid grid-cols-12 g-4">
                         <div className=" col-span-4 flex justify-center">
                           <Link

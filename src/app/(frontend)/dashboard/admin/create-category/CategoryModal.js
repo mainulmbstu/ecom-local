@@ -11,8 +11,12 @@ import { Axios } from "@/lib/helpers/AxiosInstance";
 import ProgressBar from "@/lib/components/ProgressBar";
 import { useRouter } from "next/navigation";
 
-const CategoryModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-600' }) => {
-  let value = editItem && JSON.parse(editItem)
+const CategoryModal = ({
+  editItem,
+  title = "Edit",
+  design = "btn-link text-blue-600",
+}) => {
+  let value = editItem && JSON.parse(editItem);
   let ref = useRef();
   let [loading, setLoading] = useState(false);
   let [picture, setPicture] = useState("");
@@ -20,10 +24,9 @@ const CategoryModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-
   let { catPlain, catPlainFunc } = useAuth();
   let router = useRouter();
 
-
   // console.log(value);
   let clientAction = async (formData) => {
-    formData.append('id', value?._id || '');
+    formData.append("id", value?._id || "");
     try {
       setLoading(true);
 
@@ -45,15 +48,13 @@ const CategoryModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-
       } else {
         // Swal.fire("Error", data?.message, "error");
         toast.error(data?.message);
-
       }
     } catch (err) {
       console.log(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
-
 
   return (
     <div className="">
@@ -62,7 +63,7 @@ const CategoryModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-
         disabled={loading}
         className={`btn ${design} `}
         onClick={() => ref.current.showModal()}
-      // onClick={() => document.getElementById("my_modal_1").showModal()}
+        // onClick={() => document.getElementById("my_modal_1").showModal()}
       >
         {loading ? "Submitting" : title}
       </button>
@@ -73,7 +74,13 @@ const CategoryModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-
             <div className="mb-4 ms-2 flex justify-evenly">
               <div className="">
                 <Image
-                  src={picture ? URL.createObjectURL(picture) : value ? value?.picture?.secure_url : blogBanner}
+                  src={
+                    picture
+                      ? URL.createObjectURL(picture)
+                      : value
+                        ? value?.picture?.secure_url
+                        : blogBanner
+                  }
                   alt="image"
                   className=" h-50 w-auto object-contain"
                   height={100}
@@ -83,7 +90,7 @@ const CategoryModal = ({ editItem, title = 'Edit', design = 'btn-link text-blue-
             </div>
             <Form
               action={clientAction}
-              className=" p-4  bg-slate-300 shadow-lg shadow-blue-300 card"
+              className=" p-4  bg-slate-300 shadow-lg shadow-blue-300"
             >
               <div className="mt-3">
                 <label className="block" htmlFor="name">
