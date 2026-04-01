@@ -17,6 +17,7 @@ const Footer = () => {
       <Link href={`tel:${"8801632199088"}`}>
         <MdAddCall className="" />
       </Link>
+      <Link href={`mailto:${address?.email}`}>mail</Link>
     </div>
   );
 };
