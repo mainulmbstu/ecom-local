@@ -379,7 +379,7 @@ export const CartPage = () => {
           <div className="p-3">
             <Form
               action={clientAction}
-              className=" p-4  bg-slate-300 shadow-lg shadow-blue-300 card"
+              className=" p-4  bg-slate-300 shadow-lg shadow-blue-300 card dark:text-white"
             >
               <div className="mt-3">
                 <input
