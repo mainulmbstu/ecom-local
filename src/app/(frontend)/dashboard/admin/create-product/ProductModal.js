@@ -211,8 +211,8 @@ const ProductModal = ({
                 </label>
                 <textarea
                   defaultValue={value?.description}
-                  rows="10"
-                  className="input"
+                  rows="6"
+                  className="input h-25"
                   type="text"
                   id="description"
                   name="description"
