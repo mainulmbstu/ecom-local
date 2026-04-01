@@ -230,7 +230,7 @@ export const CartPage = () => {
                             onChange={(e) => colorHandle(item._id, e)}
                             name=""
                             id={item?._id}
-                            className="py-2 border border-slate-200"
+                            className="py-2 border border-slate-200 text-black"
                           >
                             <option value={""}>Select Color</option>
                             {item?.color?.length &&
@@ -251,7 +251,7 @@ export const CartPage = () => {
                             onChange={(e) => sizeHandle(item._id, e)}
                             name=""
                             id={item?._id}
-                            className="py-2 border border-slate-200"
+                            className="py-2 border border-slate-200 text-black"
                           >
                             <option value={""}>Select size</option>
                             {item?.size?.length &&
@@ -320,7 +320,7 @@ export const CartPage = () => {
             <div className="mt-3 flex  border p-1 border-slate-300">
               <div>
                 <input
-                  onChange={(e) => setcharge(e.target.value)}
+                  onChange={(e) => setcharge(Number(e.target.value))}
                   value={50}
                   className="size-4 mt-1"
                   type="radio"
@@ -337,7 +337,7 @@ export const CartPage = () => {
             <div className="mt-3 flex  border p-1 border-slate-300">
               <div>
                 <input
-                  onChange={(e) => setcharge(e.target.value)}
+                  onChange={(e) => setcharge(Number(e.target.value))}
                   value={80}
                   className="size-4 mt-1"
                   type="radio"
@@ -355,7 +355,7 @@ export const CartPage = () => {
               <div>
                 <input
                   checked={charge == 100}
-                  onChange={(e) => setcharge(e.target.value)}
+                  onChange={(e) => setcharge(Number(e.target.value))}
                   value={100}
                   className="size-4 mt-1"
                   type="radio"
