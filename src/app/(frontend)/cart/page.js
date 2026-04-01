@@ -14,8 +14,7 @@ import Swal from "sweetalert2";
 export const CartPage = () => {
   let { cart, setCart } = useAuth();
   let [selectedCart, setSelectedCart] = useState([]);
-  let [charge, setcharge] = useState(selectedCart.length ? 150 : 0);
-
+  let [charge, setcharge] = useState(100);
 
   //========= cart update auto
   useEffect(() => {
@@ -42,7 +41,6 @@ export const CartPage = () => {
   // console.log(refList[0]?.id);
 
   let cartItemHandle = (checked, checkedItem) => {
-    setcharge(150)
     let all = [...selectedCart];
     if (checked) {
       all.push(checkedItem);
@@ -110,11 +108,11 @@ export const CartPage = () => {
       return (
         previous +
         (current?.price - (current?.price * current?.offer) / 100) *
-        current.amount
+          current.amount
       );
     }, 0);
 
-  let total = Math.round(totalFrac)
+  let total = Math.round(totalFrac);
 
   let removeCartItem = (id) => {
     try {
@@ -142,21 +140,16 @@ export const CartPage = () => {
       if (data?.success) {
         Swal.fire("Success", data?.message, "success");
         // toast.success(data?.message);
-
       } else {
         Swal.fire("Error", data?.message, "error");
         // toast.error(data?.message);
       }
-
     } catch (error) {
       console.log(error);
     }
   };
 
-
   //===================================================
-
-
 
   return (
     <div className={""}>
@@ -214,16 +207,18 @@ export const CartPage = () => {
                   <div className=" md:col-span-7 ps-3">
                     <div className="flex flex-col">
                       <div>
-                        <h6>
-                          Name: {item?.name}
-                        </h6>
-                        <p> Price:{
-                          <PriceFormat
-                            price={
-                              item?.price - (item?.price * item?.offer) / 100
-                            }
-                          />
-                        }</p>
+                        <h6>Name: {item?.name}</h6>
+                        <p>
+                          {" "}
+                          Price:
+                          {
+                            <PriceFormat
+                              price={
+                                item?.price - (item?.price * item?.offer) / 100
+                              }
+                            />
+                          }
+                        </p>
                         <p className="m-0">Category: {item?.category?.name} </p>
                         <p
                           className={
@@ -235,7 +230,7 @@ export const CartPage = () => {
                             onChange={(e) => colorHandle(item._id, e)}
                             name=""
                             id={item?._id}
-                            className="py-2 border border-black"
+                            className="py-2 border border-slate-200"
                           >
                             <option value={""}>Select Color</option>
                             {item?.color?.length &&
@@ -256,7 +251,7 @@ export const CartPage = () => {
                             onChange={(e) => sizeHandle(item._id, e)}
                             name=""
                             id={item?._id}
-                            className="py-2 border border-black"
+                            className="py-2 border border-slate-200"
                           >
                             <option value={""}>Select size</option>
                             {item?.size?.length &&
@@ -320,14 +315,66 @@ export const CartPage = () => {
           <h4>Cart Summary</h4>
           <p>Total || Checkout || Payment</p>
           <hr />
-          <div className=" text-right pe-3">
+          <div>
+            <p>Select delivery area</p>
+            <div className="mt-3 flex  border p-1 border-slate-300">
+              <div>
+                <input
+                  onChange={(e) => setcharge(e.target.value)}
+                  value={50}
+                  className="size-4 mt-1"
+                  type="radio"
+                  id="area"
+                  name="area"
+                  required
+                />
+                <label className="ms-2 pb-2" htmlFor="area">
+                  Inside Dhaka city
+                </label>
+              </div>
+              <p className="ms-auto">{<PriceFormat price={50} />}</p>
+            </div>
+            <div className="mt-3 flex  border p-1 border-slate-300">
+              <div>
+                <input
+                  onChange={(e) => setcharge(e.target.value)}
+                  value={80}
+                  className="size-4 mt-1"
+                  type="radio"
+                  id="area2"
+                  name="area"
+                  required
+                />{" "}
+                <label className="ms-2 pb-2" htmlFor="area2">
+                  Outside Dhaka city
+                </label>
+              </div>
+              <p className="ms-auto">{<PriceFormat price={80} />}</p>
+            </div>
+            <div className="mt-3 flex  border p-1 border-slate-300">
+              <div>
+                <input
+                  checked={charge == 100}
+                  onChange={(e) => setcharge(e.target.value)}
+                  value={100}
+                  className="size-4 mt-1"
+                  type="radio"
+                  id="area3"
+                  name="area"
+                  required
+                />
+                <label className="ms-2 pb-2" htmlFor="area3">
+                  Outside Dhaka district
+                </label>
+              </div>
+              <p className="ms-auto">{<PriceFormat price={100} />}</p>
+            </div>
+          </div>
+          <div className=" text-right pe-3 mt-3">
             <p>Product price: {<PriceFormat price={total} />}</p>
             <p>Delivery charge: {<PriceFormat price={charge} />}</p>
             <h6>Total: {<PriceFormat price={total + charge} />}</h6>
           </div>
-          <hr />
-
-
 
           <div className="p-3">
             <Form
@@ -335,7 +382,6 @@ export const CartPage = () => {
               className=" p-4  bg-slate-300 shadow-lg shadow-blue-300 card"
             >
               <div className="mt-3">
-
                 <input
                   className="input"
                   type="text"
@@ -346,11 +392,10 @@ export const CartPage = () => {
                 />
               </div>
               <div className="mt-3">
-
                 <input
                   className="input"
-                  type='number'
-                  minLength='11'
+                  type="number"
+                  minLength="11"
                   id="phone"
                   name="phone"
                   required
@@ -358,10 +403,9 @@ export const CartPage = () => {
                 />
               </div>
 
-
               <div className="mt-3">
                 <textarea
-                  rows="4"
+                  rows="6"
                   className="input"
                   type="text"
                   id="address"

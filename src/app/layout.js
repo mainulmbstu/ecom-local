@@ -99,7 +99,7 @@ export default function RootLayout({ children }) {
             </Suspense>
             <Suspense fallback={<h2>Loading</h2>}></Suspense>
             <Offline />
-            <div className="pt-16  flex  flex-col min-h-screen dark:text-white dark:bg-black">
+            <div className="py-16  flex  flex-col min-h-screen dark:text-white dark:bg-black">
               <div className="px-1">{children}</div>
               <div className=" mt-auto">{<Footer />}</div>
             </div>

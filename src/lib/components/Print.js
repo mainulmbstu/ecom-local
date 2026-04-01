@@ -1,29 +1,25 @@
-// /* eslint-disable*/
-
 import React from "react";
 import PriceFormat from "./PriceFormat";
 import moment from "moment";
+import { address } from "@/lib/helpers/constants";
 
 const Print = ({ printItem }, ref) => {
-
-  let totalFrac =
-    printItem?.products?.reduce((previous, current) => {
-      return (
-        previous +
-        (current?.price - (current?.price * current?.offer) / 100) *
+  let totalFrac = printItem?.products?.reduce((previous, current) => {
+    return (
+      previous +
+      (current?.price - (current?.price * current?.offer) / 100) *
         current.amount
-      );
-    }, 0);
+    );
+  }, 0);
 
-  let total = Math.round(totalFrac)
+  let total = Math.round(totalFrac);
 
   return (
     <div ref={ref} className={printItem ? "mt-5 px-5" : "hidden"}>
       <div className=" text-center mb-4">
-        <h3> MAINUL ECOM DEMO</h3>
-        <p>Delduar, Tangail, Dhaka, Bangladesh</p>
-        <p>email: mainuldemo@gmail.com</p>
-        <p>Phone: 01743914780</p>
+        <h3> {address?.web}</h3>
+        <p>{address?.area}</p>
+        <p>Phone:{address?.phone}</p>
       </div>
       <div className="grid grid-cols-2">
         <div className=" col-span-1">
@@ -31,9 +27,7 @@ const Print = ({ printItem }, ref) => {
         </div>
         <div className="col-span-1">
           <p>Invoice No. {printItem?._id} </p>
-          <p>
-            Payment Method: Cash on delivery
-          </p>
+          <p>Payment Method: Cash on delivery</p>
           <p>Invoice Date: {moment(new Date()).format("DD-MM-YYYY hh:mm a")}</p>
         </div>
       </div>
@@ -99,7 +93,9 @@ const Print = ({ printItem }, ref) => {
           <p>Total product price: {<PriceFormat price={total} />}</p>
         </div>
         <div className="flex  justify-end pe-5">
-          <p>Delivery charge: {<PriceFormat price={printItem.total - total} />}</p>
+          <p>
+            Delivery charge: {<PriceFormat price={printItem.total - total} />}
+          </p>
         </div>
         <div className="flex justify-end pe-5">
           <h4>Grand Total: {<PriceFormat price={printItem.total} />}</h4>

@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
       setUserInfo(null);
     }
   };
+
   let catPlainFunc = async () => {
     // let res = await fetch(`/api/both/category-list`, {
     //   cache: "force-cache",

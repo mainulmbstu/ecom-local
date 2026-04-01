@@ -2,6 +2,7 @@ import Link from "next/link";
 import Whatsapp from "./Whatsapp";
 import { BiHome, BiSolidCategory } from "react-icons/bi";
 import { MdAddCall } from "react-icons/md";
+import { address } from "@/lib/helpers/constants";
 
 const Footer = () => {
   return (
@@ -12,7 +13,7 @@ const Footer = () => {
       <Link href={"/products/category/all-categories"}>
         <BiSolidCategory />
       </Link>
-      <Whatsapp number={"8801632-199 088"} />
+      <Whatsapp number={address?.phone} />
       <Link href={`tel:${"8801632199088"}`}>
         <MdAddCall className="" />
       </Link>
