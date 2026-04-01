@@ -86,10 +86,13 @@ const Orders = async ({ searchParams }) => {
                       className="underline flex"
                     >
                       <MdAddCall className="mt-1 me-2" />
-                      {item?.user?.phone}
+                      {`88${item?.user?.phone}`}
                     </Link>
                     <div className="flex">
-                      <Whatsapp number={item?.user?.phone} hide={false} />
+                      <Whatsapp
+                        number={`88${item?.user?.phone}`}
+                        hide={false}
+                      />
                       {/* {item?.user?.phone}*/}
                     </div>
                     <p>Name: {item?.user?.name} </p>
