@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/helpers/dbConnect";
 import { getErrorMessage } from "@/lib/helpers/getErrorMessage";
 import { CategoryModel } from "@/lib/models/categoryModdel";
+import { revalidatePath } from "next/cache";
 
 export async function GET(req) {
   let keyword = req.nextUrl.searchParams.get("keyword") || "";
@@ -23,6 +24,7 @@ export async function GET(req) {
     const items = await CategoryModel.find({});
 
     let nestedItems = await createNestedItems(items);
+    revalidatePath("/", "layout");
     return Response.json({
       nestedCategory: nestedItems,
       categoryList,
@@ -43,7 +45,7 @@ let createNestedItems = async (items, parentId = null) => {
     filteredItem = await items.filter((item) => item.parentId == parentId);
   }
   for (let v of filteredItem) {
-    await itemList.push({
+    itemList.push({
       _id: v._id,
       name: v.name,
       slug: v.slug,

@@ -8,11 +8,12 @@ import { commentAction } from "./action";
 const CommentModal = ({ pid }) => {
   let [loading, setLoading] = useState(false);
   let [comment, setComment] = useState("");
+  let [name, setName] = useState("");
 
   let clientAction = async () => {
     if (!comment) return Swal.fire("Error", "Comment cannot be blank", "error");
     setLoading(true);
-    let data = await commentAction(pid, comment);
+    let data = await commentAction(pid, name, comment);
     setLoading(false);
     if (data?.success) {
       Swal.fire("Success", data?.message, "success");
@@ -34,6 +35,20 @@ const CommentModal = ({ pid }) => {
         <div className="modal-box">
           <h3 className="text-lg font-bold">Comment Box</h3>
           <Form className=" p-4 w-full card">
+            <div className="mt-3">
+              <label className="block" htmlFor="name">
+                Type your name
+              </label>
+              <input
+                onChange={(e) => setName(e.target.value)}
+                className="input w-full"
+                type="text"
+                id="name"
+                name="name"
+                value={name}
+                required
+              />
+            </div>
             <div className="mt-3">
               <label className="block" htmlFor="comment">
                 Type your text

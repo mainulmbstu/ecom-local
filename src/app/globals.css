@@ -34,91 +34,91 @@ body {
 /* @plugin "tailwindcss-animate"; */
 
 @theme {
-  --text-tiny: 0.625rem;
-  --text-tiny--line-height: 1.5rem;
-  --text-tiny--letter-spacing: 0.125rem;
-  --text-tiny--font-weight: 500;
+    --text-tiny: 0.625rem;
+    --text-tiny--line-height: 1.5rem;
+    --text-tiny--letter-spacing: 0.125rem;
+    --text-tiny--font-weight: 500;
 }
 @theme {
-  --test-400: #ffad00;
-  --font-roboto: "Roboto", sans-serif;
-  --font-inter: "Inter", sans-serif;
+    --test-400: #ffad00;
+    --font-roboto: "Roboto", sans-serif;
+    --font-inter: "Inter", sans-serif;
 }
 
 .bg-test {
-  background-color: var(--test-400);
+    background-color: var(--test-400);
 }
 @utility black-theme {
-  background-color: rgb(0, 0, 0);
-  color: #ffffff;
+    background-color: rgb(0, 0, 0);
+    color: #ffffff;
 }
 /* working */
 @utility card {
-  background-color: #e6e6e6;
-  /* background-color: var(--color-gray); */
-  border-radius: var(--rounded-lg);
-  padding: 10px;
-  box-shadow: var(--shadow-xl);
-  color: #0a0a0a;
+    background-color: #e6e6e6;
+    /* background-color: var(--color-gray); */
+    border-radius: var(--rounded-lg);
+    padding: 10px;
+    box-shadow: var(--shadow-xl);
+    color: #0a0a0a;
 }
 /* customize class */
 @layer components {
-  .card1 {
-    background: #000;
-  }
+    .card1 {
+        background: #000;
+    }
 }
 
 /* customize base element */
 @layer base {
-  h1 {
-    /* font-size: var(--text-5xl); */
-    font-size: 2.5em;
-    font-weight: bold;
-  }
-  h2 {
-    /* @apply font-bold text-4xl */
-    font-size: 2em;
-    font-weight: bold;
-  }
-  h3 {
-    font-size: 1.5em;
-    font-weight: bold;
-  }
-  h4 {
-    font-size: 1.33em;
-    font-weight: bold;
-  }
-  h5 {
-    font-size: 1.17em;
-    font-weight: bold;
-  }
-  h6 {
-    font-size: 1em;
-    font-weight: bold;
-  }
-  /* a {
+    h1 {
+        /* font-size: var(--text-5xl); */
+        font-size: 2.5em;
+        font-weight: bold;
+    }
+    h2 {
+        /* @apply font-bold text-4xl */
+        font-size: 2em;
+        font-weight: bold;
+    }
+    h3 {
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+    h4 {
+        font-size: 1.33em;
+        font-weight: bold;
+    }
+    h5 {
+        font-size: 1.17em;
+        font-weight: bold;
+    }
+    h6 {
+        font-size: 1em;
+        font-weight: bold;
+    }
+    /* a {
     color: var(--color-blue-600);
     text-decoration-line: underline;
   } */
-  hr {
-    margin: 12px 0;
-  }
-  input,
-  textarea,
-  select {
-    width: 100%;
-    background-color: white;
-  }
+    hr {
+        margin: 12px 0;
+    }
+    input,
+    textarea,
+    select {
+        width: 100%;
+        background-color: white;
+    }
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #ffffff;
+    --foreground: #171717;
 }
 
 [data-theme="dark"] {
-  --background: black;
-  --foreground: white;
+    --background: black;
+    --foreground: white;
 }
 
 /* custom theme app e use na korle  */
@@ -132,25 +132,25 @@ body {
 } */
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 input:focus {
-  outline-width: 0;
-  border-color: #df5d5d;
+    outline-width: 0;
+    border-color: #df5d5d;
 }
 
 th {
-  font-weight: bolder;
-  background-color: aquamarine;
+    font-weight: bolder;
+    background-color: aquamarine;
 }
-/* 
+/*
 * {
   scrollbar-gutter: stable;
 } */
 
 .size-font {
-  font-size: clamp(8px, 1vw, 100px);
+    font-size: clamp(8px, 1vw, 100px);
 }

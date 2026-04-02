@@ -51,7 +51,11 @@ const CategoryPage = async ({ params, searchParams }) => {
       </div>
       <SubCat slug={slug} />
       <div className={slug === "all-categories" ? "hidden" : "'"}>
-        <h5> <span className=" uppercase">({slug}) </span>Total product found {data?.total} </h5>
+        <h5>
+          {" "}
+          <span className=" uppercase">({slug}) </span>Total product found{" "}
+          {data?.total}{" "}
+        </h5>
         <div className=" grid md:grid-cols-4 gap-6">
           {entries?.length ? (
             entries.map((item) => (

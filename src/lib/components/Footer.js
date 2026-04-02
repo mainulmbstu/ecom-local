@@ -3,6 +3,7 @@ import Whatsapp from "./Whatsapp";
 import { BiHome, BiSolidCategory } from "react-icons/bi";
 import { MdAddCall } from "react-icons/md";
 import { address } from "@/lib/helpers/constants";
+import { AiTwotoneMail } from "react-icons/ai";
 
 const Footer = () => {
   return (
@@ -13,14 +14,14 @@ const Footer = () => {
       <Link href={"/products/category/all-categories"}>
         <BiSolidCategory />
       </Link>
-      <Whatsapp number={address?.phone} />
-      <Link href={`tel:${"8801632199088"}`}>
-        <MdAddCall className="" />
-      </Link>
       <Link
         href={`mailto:${address?.email}?subject=${encodeURIComponent("my subject")}&body=${encodeURIComponent("my body")}`}
       >
-        mail
+        <AiTwotoneMail />
+      </Link>
+      <Whatsapp number={address?.phone} />
+      <Link href={`tel:${"8801632199088"}`}>
+        <MdAddCall className="" />
       </Link>
     </div>
   );

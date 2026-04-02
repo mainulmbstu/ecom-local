@@ -23,7 +23,7 @@ const Comments = ({ data }) => {
                     href={
                       item?.user?.picture
                         ? item?.user?.picture?.secure_url
-                        : "/"
+                        : "/dummy.jpeg"
                     }
                     target="_blank"
                   >
@@ -33,7 +33,7 @@ const Comments = ({ data }) => {
                       // blurDataURL={blurDataAuthor}
                       // placeholder="blur"
                       className=" object-contain w-10 h-auto me-3"
-                      src={item?.user?.picture?.secure_url}
+                      src={item?.user?.picture?.secure_url || "/dummy.jpeg"}
                       alt=""
                       width={100}
                       height={100}

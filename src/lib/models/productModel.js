@@ -38,11 +38,8 @@ const productSchema = new mongoose.Schema(
 
     amount: { type: Number, default: 1 },
     review: { type: Number, default: 0 },
-    rating: { type: Number, default: 0 },
-    ratingNo: { type: Number, default: 0 },
-    like: { type: Number, default: 0 },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const ProductModel =

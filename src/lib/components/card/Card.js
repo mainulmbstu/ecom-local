@@ -5,7 +5,6 @@ import { MdStar } from "react-icons/md";
 import AddToCartBTN from "./AddToCartBTN";
 import blurImg from "@/assets/blurr.webp";
 
-
 const Card = async ({ item }) => {
   // let plainItem = { ...item, _id: item?._id.toString() };
   // console.log(plainItem);
@@ -59,13 +58,7 @@ const Card = async ({ item }) => {
                 }
               </span>{" "}
             </p>
-            <p className="m-0 ">
-              <span className="p-1 text-white bg-green-600">
-                Rating: {item?.rating?.toFixed(1)}
-                <MdStar className=" text-red-500 inline mx-2" />(
-                {item?.ratingNo})
-              </span>{" "}
-            </p>
+
             <p className="m-0">
               Description: {item?.description.substring(0, charLimit)}{" "}
               {item?.description?.length > charLimit ? "..." : ""}
@@ -76,15 +69,12 @@ const Card = async ({ item }) => {
         <div className="mt-auto flex justify-between">
           <Link
             className="btn btn-primary "
-            href={`/products/details/${item._id}?name=${item.name
-              }&description=${item.description?.substring(0, 300)}`}
+            href={`/products/details/${item._id}`}
           >
             Viw Details
           </Link>
           <div>
-            <AddToCartBTN
-              data={JSON.stringify(item)}
-            />
+            <AddToCartBTN data={JSON.stringify(item)} />
           </div>
         </div>
       </div>

@@ -9,9 +9,9 @@ export async function GET(req) {
   try {
     await dbConnect();
 
-    const comments = await CommentModel.find({ product: pid })
-      .populate("user", "-password", UserModel)
-      .sort({ createdAt: -1 });
+    const comments = await CommentModel.find({ product: pid }).sort({
+      createdAt: -1,
+    });
     return Response.json({ comments });
   } catch (error) {
     console.log(error);

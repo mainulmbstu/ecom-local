@@ -4,7 +4,6 @@ import { useAuth } from "@/lib/components/context";
 import PriceFormat from "@/lib/components/PriceFormat";
 import { Axios } from "@/lib/helpers/AxiosInstance";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { checkoutAction } from "./action";
 import SubmitButton from "@/lib/components/SubmitButton";
@@ -354,7 +353,7 @@ export const CartPage = () => {
             <div className="mt-3 flex  border p-1 border-slate-300">
               <div>
                 <input
-                  checked={charge == 100}
+                  checked={charge === 100}
                   onChange={(e) => setcharge(Number(e.target.value))}
                   value={100}
                   className="size-4 mt-1"

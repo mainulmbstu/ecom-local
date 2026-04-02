@@ -64,7 +64,7 @@ const NavMenu = () => {
               </Link>
             </li>
 
-            <li className="md:hidden border-b border-b-zinc-50 hover:inset-shadow-sm  py-2 md:py-0 hover:inset-shadow-indigo-300 transition-all">
+            <li className="border-b border-b-zinc-50 hover:inset-shadow-sm  py-2 md:py-0 hover:inset-shadow-indigo-300 transition-all">
               <Link
                 className={
                   path === "/products/category/all-categories"

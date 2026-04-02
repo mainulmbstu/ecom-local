@@ -6,6 +6,7 @@ import {
 } from "@/lib/helpers/cloudinary";
 import dbConnect from "@/lib/helpers/dbConnect";
 import { getErrorMessage } from "@/lib/helpers/getErrorMessage";
+import { CommentModel } from "@/lib/models/CommentModel";
 import { ProductModel } from "@/lib/models/productModel";
 import { revalidatePath, updateTag } from "next/cache";
 import slugify from "slugify";
@@ -83,6 +84,7 @@ export const deleteAction = async (id = "") => {
         await deleteImageOnCloudinary(pic?.public_id);
       }
     }
+    await CommentModel.deleteMany({ product: id });
     // revalidatePath("/", "layout");
     updateTag("product-list");
 
