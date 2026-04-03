@@ -1,6 +1,9 @@
 import { getErrorMessage } from "@/lib/helpers/getErrorMessage";
 import dbConnect from "@/lib/helpers/dbConnect";
-import { deleteImageOnCloudinary, uploadOnCloudinary } from "@/lib/helpers/cloudinary";
+import {
+  deleteImageOnCloudinary,
+  uploadOnCloudinary,
+} from "@/lib/helpers/cloudinary";
 import slugify from "slugify";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { getTokenData } from "@/lib/helpers/getTokenData";
@@ -36,7 +39,7 @@ export async function POST(req) {
             return Response.json({
               success: false,
               message: `File too large, maximum 3 mb`,
-            })
+            });
           }
           let { secure_url, public_id } = await uploadOnCloudinary(
             file,
@@ -66,7 +69,7 @@ export async function POST(req) {
       product.user = userInfo?._id;
       if (offer) product.offer = offer;
       if (color) product.color = cArr;
-      if (size) product.size = sArr
+      if (size) product.size = sArr;
       if (url) product.picture = url;
 
       await product.save();
@@ -76,8 +79,6 @@ export async function POST(req) {
         message: `${name}  created successfully `,
       });
     } else {
-
-
       await dbConnect();
       const itemExist = await ProductModel.findById(id);
       if (itemExist.picture[0]?.public_id) {
@@ -130,7 +131,6 @@ export async function POST(req) {
     // revalidatePath("/dashboard/admin/create-product", "page");
     // layout means 'path/*'
     // revalidatePath("/post/category/[category]", 'page');  // // page means 'exact path'
-
   }
 }
 //=============================
@@ -146,34 +146,36 @@ export async function GET(req) {
       $or: [{ _id: keyCat?._id }, { parentId: keyCat?._id }],
     });
   } else {
-    let category = await CategoryModel.find({});
-    let categoryList = await createCategories(category); // function below
-    let filtered = await categoryList.filter(
-      (parent) => parent?.slug === catSlug,
-    );
-    keyCat = getPlainCatList(filtered);
+    if (catSlug) {
+      let category = await CategoryModel.find({});
+      let categoryList = await createCategories(category); // function below
+      let filtered = await categoryList.filter(
+        (parent) => parent?.slug === catSlug,
+      );
+      keyCat = getPlainCatList(filtered);
+    }
   }
   try {
     await dbConnect();
     const total = await ProductModel.find(
       keyCat?.length
         ? {
-          $and: [
-            { name: { $regex: keyword, $options: "i" } },
-            { category: keyCat },
-          ],
-        }
+            $and: [
+              { name: { $regex: keyword, $options: "i" } },
+              { category: keyCat },
+            ],
+          }
         : { name: { $regex: keyword, $options: "i" } },
     );
 
     const productList = await ProductModel.find(
       keyCat?.length
         ? {
-          $and: [
-            { name: { $regex: keyword, $options: "i" } },
-            { category: keyCat },
-          ],
-        }
+            $and: [
+              { name: { $regex: keyword, $options: "i" } },
+              { category: keyCat },
+            ],
+          }
         : { name: { $regex: keyword, $options: "i" } },
     )
       .populate("user", "name email", UserModel)
@@ -195,9 +197,9 @@ let createCategories = async (category, parentId = null) => {
   let categoryList = [];
   let filteredCat;
   if (parentId == null) {
-    filteredCat = await category.filter((item) => item.parentId === undefined);
+    filteredCat = await category.filter((item) => item.parentId == undefined);
   } else {
-    filteredCat = await category.filter((item) => item.parentId === parentId);
+    filteredCat = await category.filter((item) => item.parentId == parentId);
   }
   for (let v of filteredCat) {
     categoryList.push({
