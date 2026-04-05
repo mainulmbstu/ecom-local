@@ -2,10 +2,10 @@
 
 import moment from "moment";
 
-const DateSSR = ({ SSRTime }) => {
+const DateSSR = ({ date }) => {
   return (
     <div className=" ">
-      <p>Date: {moment(SSRTime).format("DD-MM-YY hh:mm a")} </p>
+      <p>Date: {moment(date).format("DD-MM-YY hh:mm a")} </p>
     </div>
   );
 };

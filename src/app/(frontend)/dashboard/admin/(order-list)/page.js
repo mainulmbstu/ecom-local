@@ -99,7 +99,7 @@ const Orders = async ({ searchParams }) => {
                     <p>Name: {item?.user?.name} </p>
                     <p>Address: {item?.user?.address} </p>
                     <p>Item number: {item?.products?.length} </p>
-                    <DateSSR SSRTime={item?.createdAt} />
+                    <DateSSR date={item?.createdAt} />
                     <h6>
                       Products Price:{" "}
                       {<PriceFormat price={item.total - item.charge} />}{" "}
