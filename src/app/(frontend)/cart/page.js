@@ -291,17 +291,20 @@ export const CartPage = () => {
                             ))}
                         </div>
                         <div>
+                          <span>Quntity: </span>
                           <button
+                            type="submit"
                             onClick={() => amountHandle(item._id, -1)}
-                            className=" px-3 me-3 btn btn-secondary"
+                            className=" px-3 me-3 btn btn-circle"
                             disabled={item?.amount === 1}
                           >
                             -
                           </button>
                           <span>{item?.amount} </span>
                           <button
+                            type="submit"
                             onClick={() => amountHandle(item?._id, 1)}
-                            className=" px-3 mx-3 btn btn-secondary"
+                            className=" px-3 mx-3 btn btn-circle"
                             disabled={item?.amount === item?.quantity}
                           >
                             +
@@ -327,8 +330,9 @@ export const CartPage = () => {
                       </div>
                       <div className=" mt-auto">
                         <button
+                          type="submit"
                           onClick={() => removeCartItem(item._id)}
-                          className="btn btn-secondary mb-2"
+                          className="btn btn-link mb-2 text-red-500"
                         >
                           Remove
                         </button>
