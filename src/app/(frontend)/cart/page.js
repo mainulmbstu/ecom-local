@@ -37,7 +37,7 @@ export const CartPage = () => {
     setRefList((prev) => [...prev, el]);
   }, []);
 
-  // console.log(refList[0]?.id);
+  // console.log(refList[0]);
 
   let cartItemHandle = (checked, checkedItem) => {
     let all = [...selectedCart];
@@ -48,7 +48,9 @@ export const CartPage = () => {
       let one =
         refList?.length &&
         refList.find((item) => item?.id === checkedItem?._id);
-      one.value = "";
+      if (one) {
+        one.value = "";
+      }
     }
     setSelectedCart(all);
   };
