@@ -12,6 +12,7 @@ import blurImg from "@/assets/blurr.webp";
 import { MdAddCall } from "react-icons/md";
 import Whatsapp from "@/lib/components/Whatsapp";
 import { deleteAction } from "./deleteAction";
+import DateSSR from "@/lib/components/DateSSR";
 
 export const metadata = {
   title: "Order List",
@@ -98,10 +99,7 @@ const Orders = async ({ searchParams }) => {
                     <p>Name: {item?.user?.name} </p>
                     <p>Address: {item?.user?.address} </p>
                     <p>Item number: {item?.products?.length} </p>
-                    <p>
-                      Date:{" "}
-                      {moment(item?.createdAt).format("DD-MM-YY hh:mm a")}{" "}
-                    </p>
+                    <DateSSR SSRTime={item?.createdAt} />
                     <h6>
                       Products Price:{" "}
                       {<PriceFormat price={item.total - item.charge} />}{" "}
