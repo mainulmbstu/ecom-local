@@ -63,7 +63,7 @@ export const CartPage = () => {
       return;
     }
     let tempObj = { ...findObj };
-    let sortedColor = tempObj?.packs
+    let sortedColor = tempObj?.color
       ?.slice()
       .sort((a, b) => (b === color) - (a === color));
     tempObj.color = sortedColor;
@@ -83,7 +83,7 @@ export const CartPage = () => {
       return;
     }
     let tempObj = { ...findObj };
-    let sortedSize = tempObj?.sizes
+    let sortedSize = tempObj?.size
       ?.slice()
       .sort((a, b) => (b === size) - (a === size));
     tempObj.size = sortedSize;
@@ -171,6 +171,8 @@ export const CartPage = () => {
         <div className="md:col-span-8 mt-0">
           {cart?.length &&
             cart.map((item, i) => {
+              let isSelected = selectedCart?.find((p) => p._id === item?._id);
+              item = isSelected ? isSelected : item;
               return (
                 <div
                   key={i}
@@ -224,7 +226,7 @@ export const CartPage = () => {
                             />
                           }
                         </p>
-                        <p className="m-0">Category: {item?.category?.name} </p>
+                        {/* <p className="m-0">Category: {item?.category?.name} </p>
                         <p
                           className={
                             item?.color?.length ? "m-0 py-2 w-50" : "hidden"
@@ -233,7 +235,7 @@ export const CartPage = () => {
                           <select
                             ref={ref1}
                             onChange={(e) =>
-                              colorHandle(item._id, e.target, value)
+                              colorHandle(item._id, e.target.value)
                             }
                             name=""
                             id={item?._id}
@@ -247,30 +249,45 @@ export const CartPage = () => {
                                 </option>
                               ))}
                           </select>
-                        </p>
-                        <p
-                          className={
-                            item?.size?.length ? "m-0 py-2 w-50" : "hidden"
-                          }
-                        >
-                          <select
-                            ref={ref1}
-                            onChange={(e) =>
-                              sizeHandle(item._id, e.target, value)
-                            }
-                            name=""
-                            id={item?._id}
-                            className="py-2 border border-slate-200 text-black"
-                          >
-                            <option value={""}>Select size</option>
-                            {item?.size?.length &&
-                              item?.size.map((sz) => (
-                                <option key={sz} value={sz}>
-                                  {sz}
-                                </option>
-                              ))}
-                          </select>
-                        </p>
+                        </p>*/}
+                        <div className={"m-0 py-2 flex gap-4 flex-wrap"}>
+                          <p>Color: </p>
+                          {item?.color
+                            ?.slice()
+                            .sort()
+                            .map((single, i) => (
+                              <button
+                                key={i}
+                                ref={ref1}
+                                type="submit"
+                                className={`py-1 px-2 border rounded-md cursor-pointer  ${item?.color[0] === single ? "border-pink-600" : "border-slate-300"}`}
+                                onClick={(e) => {
+                                  colorHandle(item._id, single);
+                                }}
+                              >
+                                {single}
+                              </button>
+                            ))}
+                        </div>
+                        <div className={"m-0 py-2 flex gap-4 flex-wrap"}>
+                          <p>Size: </p>
+                          {item?.size
+                            ?.slice()
+                            .sort()
+                            .map((single, i) => (
+                              <button
+                                key={i}
+                                ref={ref1}
+                                type="submit"
+                                className={`py-1 px-2 border rounded-md cursor-pointer  ${item?.size[0] === single ? "border-pink-600" : "border-slate-300"}`}
+                                onClick={(e) => {
+                                  sizeHandle(item._id, single);
+                                }}
+                              >
+                                {single}
+                              </button>
+                            ))}
+                        </div>
                         <div>
                           <button
                             onClick={() => amountHandle(item._id, -1)}

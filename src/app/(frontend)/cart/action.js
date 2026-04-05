@@ -18,6 +18,7 @@ export const checkoutAction = async (formData, cart, total, charge) => {
     await dbConnect();
     let order = {
       products: cart,
+      charge,
       total: total + charge,
       user: {
         name,

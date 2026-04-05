@@ -4,7 +4,6 @@ import Form from "next/form";
 import Image from "next/image";
 import Link from "next/link";
 import DeleteModal from "@/lib/components/DeleteModal";
-import { deleteAction } from "./deleteAction";
 import Status from "./status";
 import PriceFormat from "@/lib/components/PriceFormat";
 import ClientPage from "./clientPage";
@@ -12,6 +11,7 @@ import SubmitButton from "@/lib/components/SubmitButton";
 import blurImg from "@/assets/blurr.webp";
 import { MdAddCall } from "react-icons/md";
 import Whatsapp from "@/lib/components/Whatsapp";
+import { deleteAction } from "./deleteAction";
 
 export const metadata = {
   title: "Order List",
@@ -97,12 +97,22 @@ const Orders = async ({ searchParams }) => {
                     </div>
                     <p>Name: {item?.user?.name} </p>
                     <p>Address: {item?.user?.address} </p>
-                    <p>Item Qnty: {item?.products?.length} </p>
+                    <p>Item number: {item?.products?.length} </p>
                     <p>
                       Date:{" "}
                       {moment(item?.createdAt).format("DD-MM-YY hh:mm a")}{" "}
                     </p>
-                    <h6>Total Price: {<PriceFormat price={item.total} />} </h6>
+                    <h6>
+                      Products Price:{" "}
+                      {<PriceFormat price={item.total - item.charge} />}{" "}
+                    </h6>
+                    <h6>
+                      Delivery charge:{" "}
+                      {<PriceFormat price={item.charge} />}{" "}
+                    </h6>
+                    <h5>
+                      Total Payable: {<PriceFormat price={item.total} />}{" "}
+                    </h5>
                     <div className="flex justify-around">
                       <ClientPage item={item} />
                       <DeleteModal
@@ -143,7 +153,7 @@ const Orders = async ({ searchParams }) => {
                         </div>
                         <div className=" col-span-8 ms-1 ">
                           <div>
-                            <h6>Name: {p?.name}</h6>
+                            <p>Name: {p?.name}</p>
                             <p>
                               Price:{" "}
                               {
@@ -153,10 +163,10 @@ const Orders = async ({ searchParams }) => {
                               }
                             </p>
                             <p>Category: {p?.category?.name} </p>
-                            <p>{`Qnty: ${p?.amount}`}</p>
-                            <p>{`Color: ${p?.color?.length > 1 ? "No color selected" : p?.color[0]}`}</p>
-                            <p>{`Size: ${p?.color?.length > 1 ? "No size selected" : p?.size[0]}`}</p>
-                            <p>
+                            <p>{`Quantity: ${p?.amount}`}</p>
+                            <p>{`Color: ${p?.color[0]}`}</p>
+                            <p>{`Size: ${p?.size[0]}`}</p>
+                            <h6>
                               Sub-Total:{" "}
                               {
                                 <PriceFormat
@@ -166,7 +176,7 @@ const Orders = async ({ searchParams }) => {
                                   }
                                 />
                               }
-                            </p>
+                            </h6>
                           </div>
                         </div>
                       </div>
