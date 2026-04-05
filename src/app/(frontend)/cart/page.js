@@ -52,40 +52,46 @@ export const CartPage = () => {
     }
     setSelectedCart(all);
   };
-
-  let colorHandle = (id, e) => {
+  //=================================================
+  let colorHandle = (id, color) => {
     let findObj =
       selectedCart.length && selectedCart.find((item) => item._id === id);
     if (!findObj) {
       alert("Please select the item first");
-      let one = refList?.length && refList.find((item) => item?.id === id);
+      let one = refList?.length && refList?.find((item) => item?.id === id);
       if (one) one.value = "";
       return;
     }
     let tempObj = { ...findObj };
-    tempObj.color = [e.target.value];
-    let tempArr2 = selectedCart.filter((item) => item._id !== id);
-    tempArr2.push(tempObj);
+    let sortedColor = tempObj?.packs
+      ?.slice()
+      .sort((a, b) => (b === color) - (a === color));
+    tempObj.color = sortedColor;
+    let tempArr2 = selectedCart?.filter((item) => item._id !== id);
+    tempArr2?.push(tempObj);
     setSelectedCart(tempArr2);
   };
 
   //=======================================================
-  let sizeHandle = (id, e) => {
+  let sizeHandle = (id, size) => {
     let findObj =
-      selectedCart.length && selectedCart.find((item) => item._id === id);
+      selectedCart?.length && selectedCart?.find((item) => item._id === id);
     if (!findObj) {
       alert("Please select the item first");
-      let one = refList?.length && refList.find((item) => item?.id === id);
+      let one = refList?.length && refList?.find((item) => item?.id === id);
       if (one) one.value = "";
       return;
     }
     let tempObj = { ...findObj };
-    tempObj.size = [e.target.value];
-    let tempArr2 = selectedCart.filter((item) => item._id !== id);
-    tempArr2.push(tempObj);
+    let sortedSize = tempObj?.sizes
+      ?.slice()
+      .sort((a, b) => (b === size) - (a === size));
+    tempObj.size = sortedSize;
+    let tempArr2 = selectedCart?.filter((item) => item._id !== id);
+    tempArr2?.push(tempObj);
     setSelectedCart(tempArr2);
   };
-
+  //===========================================================
   let amountHandle = (id, d) => {
     let isSelected =
       selectedCart.length && selectedCart.find((item) => item._id === id);
@@ -226,7 +232,9 @@ export const CartPage = () => {
                         >
                           <select
                             ref={ref1}
-                            onChange={(e) => colorHandle(item._id, e)}
+                            onChange={(e) =>
+                              colorHandle(item._id, e.target, value)
+                            }
                             name=""
                             id={item?._id}
                             className="py-2 border border-slate-200 text-black"
@@ -247,7 +255,9 @@ export const CartPage = () => {
                         >
                           <select
                             ref={ref1}
-                            onChange={(e) => sizeHandle(item._id, e)}
+                            onChange={(e) =>
+                              sizeHandle(item._id, e.target, value)
+                            }
                             name=""
                             id={item?._id}
                             className="py-2 border border-slate-200 text-black"

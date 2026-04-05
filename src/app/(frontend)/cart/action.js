@@ -4,6 +4,7 @@ import { getErrorMessage } from "@/lib/helpers/getErrorMessage";
 import dbConnect from "@/lib/helpers/dbConnect";
 import { OrderModel } from "@/lib/models/OrderModel";
 import { updateTag } from "next/cache";
+import { ProductModel } from "@/lib/models/productModel";
 
 //===========================================================
 export const checkoutAction = async (formData, cart, total, charge) => {
@@ -21,10 +22,17 @@ export const checkoutAction = async (formData, cart, total, charge) => {
       user: {
         name,
         phone,
-        address
+        address,
       },
     };
-    await OrderModel.create(order);
+    let saved = await OrderModel.create(order);
+    if (saved) {
+      for (let v of saved.products) {
+        let product = await ProductModel.findById(v._id);
+        product.quantity = product.quantity - v.amount;
+        await product.save();
+      }
+    }
     return {
       success: true,
       message: `Order has been placed successfully`,
@@ -33,6 +41,6 @@ export const checkoutAction = async (formData, cart, total, charge) => {
     console.log(error);
     return { message: await getErrorMessage(error) };
   } finally {
-    updateTag('order-list')
+    updateTag("order-list");
   }
 };
