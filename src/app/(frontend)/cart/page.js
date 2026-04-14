@@ -203,7 +203,8 @@ export const CartPage = () => {
                         <Image
                           priority={true}
                           src={
-                            item?.picture && `${item?.picture[0]?.secure_url}`
+                            item?.picture &&
+                            `${item?.picture?.at(0)?.secure_url}`
                           }
                           className="h-50 w-auto"
                           height={190}
@@ -228,8 +229,8 @@ export const CartPage = () => {
                             />
                           }
                         </p>
-                        {/* <p className="m-0">Category: {item?.category?.name} </p>
-                        <p
+                        <p className="m-0">Category: {item?.category?.name} </p>
+                        {/* <p
                           className={
                             item?.color?.length ? "m-0 py-2 w-50" : "hidden"
                           }
@@ -262,8 +263,8 @@ export const CartPage = () => {
                                 key={i}
                                 ref={ref1}
                                 type="submit"
-                                className={`py-1 px-2 border rounded-md cursor-pointer  ${item?.color[0] === single ? "border-pink-600" : "border-slate-300"}`}
-                                onClick={(e) => {
+                                className={`py-1 px-2 border rounded-md cursor-pointer  ${item?.color?.at(0) === single ? "border-pink-600" : "border-slate-300"}`}
+                                onClick={() => {
                                   colorHandle(item._id, single);
                                 }}
                               >
@@ -332,7 +333,7 @@ export const CartPage = () => {
                         <button
                           type="submit"
                           onClick={() => removeCartItem(item._id)}
-                          className="btn btn-link mb-2 text-red-500"
+                          className="btn btn-link mb-2 text-red-500 "
                         >
                           Remove
                         </button>
@@ -344,7 +345,7 @@ export const CartPage = () => {
             })}
         </div>
         <div className="md:col-span-4 text-center">
-          <h4>Cart Summary</h4>
+          <h5>Cart Summary</h5>
           <p>Total || Checkout || Payment</p>
           <hr />
           <div>

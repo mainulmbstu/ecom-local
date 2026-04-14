@@ -25,8 +25,9 @@ const ImagePage = ({ picture, blurData }) => {
                 alt="img"
                 width={70}
                 height={70}
-                className={`px-3 cursor-pointer h-16 w-auto ${i === index ? "border border-red-400" : ""
-                  }`}
+                className={`px-3 cursor-pointer h-16 w-auto ${
+                  i === index ? "border border-red-400" : ""
+                }`}
               />
             </div>
           );
@@ -41,7 +42,7 @@ const ImagePage = ({ picture, blurData }) => {
             blurDataURL={blurimg?.blurDataURL}
             placeholder="blur"
             className=" object-contain"
-            src={img || (picture?.length && picture[0]?.secure_url)}
+            src={img || (picture?.length && picture?.at(0)?.secure_url)}
             alt=""
           />{" "}
         </figure>

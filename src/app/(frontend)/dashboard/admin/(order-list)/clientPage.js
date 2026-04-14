@@ -5,6 +5,10 @@ import Print from "@/lib/components/Print";
 
 const ClientPage = ({ item }) => {
   let [printItem, setPrintItem] = useState("");
+
+  useEffect(() => {
+    setPrintItem(item);
+  }, [item]);
   //=============== print
   let contentRef = useRef();
   let printAddress = useReactToPrint({
@@ -14,7 +18,7 @@ const ClientPage = ({ item }) => {
 
   return (
     <div>
-      <button
+      {/* <button
         onClick={() => {
           setPrintItem(item);
         }}
@@ -22,13 +26,13 @@ const ClientPage = ({ item }) => {
         disabled={item?.payment?.refund === "refunded"}
       >
         {printItem?._id === item?._id ? "OK" : "Set Print"}
-      </button>
+      </button>*/}
       <button
         onClick={() => {
           printAddress();
         }}
         className="btn btn-primary"
-        disabled={printItem?._id !== item?._id}
+        disabled={item?.payment?.refund === "refunded"}
       >
         Print
       </button>

@@ -36,10 +36,7 @@ export async function POST(req) {
         url = [];
         for (let file of files) {
           if (file?.size > 3 * 1024 * 1000) {
-            return Response.json({
-              success: false,
-              message: `File too large, maximum 3 mb`,
-            });
+            throw new Error("File too large, maximum 3 mb`");
           }
           let { secure_url, public_id } = await uploadOnCloudinary(
             file,

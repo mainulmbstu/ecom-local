@@ -9,10 +9,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "./context";
 import Image from "next/image";
 import Cookies from "js-cookie";
-import { useTheme } from "next-themes";
-import { FaMoon } from "react-icons/fa";
-import { GoSun } from "react-icons/go";
-import { MdAddCall } from "react-icons/md";
 
 const NavMenu = () => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
@@ -50,7 +46,7 @@ const NavMenu = () => {
           <ul
             className={`${
               isMenuOpen
-                ? " absolute top-10 -left-5 w-60 flex flex-col scale-y-100 pt-6 text-center transition-all  duration-500"
+                ? " absolute top-10 -left-5 w-80 flex flex-col scale-y-100 pt-6 text-center transition-all  duration-500"
                 : "scale-y-0"
             } md:flex md:gap-6 md:scale-y-100 bg-base-300`}
           >

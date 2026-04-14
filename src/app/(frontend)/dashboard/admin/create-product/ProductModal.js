@@ -4,7 +4,6 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { useAuth } from "@/lib/components/context";
 import Form from "next/form";
-import { editAction } from "./action";
 import SubmitButton from "@/lib/components/SubmitButton";
 import Image from "next/image";
 import blogBanner from "@/assets/blog.svg";
@@ -58,6 +57,7 @@ const ProductModal = ({
     <div className="">
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <button
+        type="button"
         disabled={loading}
         className={`btn ${design} `}
         onClick={() => ref.current.showModal()}
@@ -76,7 +76,7 @@ const ProductModal = ({
                     picture
                       ? URL.createObjectURL(picture)
                       : value
-                        ? value?.picture[0]?.secure_url
+                        ? value?.picture?.at(0)?.secure_url
                         : blogBanner
                   }
                   alt="image"
@@ -236,7 +236,10 @@ const ProductModal = ({
           </div>
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-error absolute right-2 top-6">
+              <button
+                type="button"
+                className="btn btn-sm btn-circle btn-error absolute right-2 top-6"
+              >
                 ✕
               </button>
               {/* if there is a button in form, it will close the modal */}

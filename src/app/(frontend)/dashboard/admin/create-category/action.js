@@ -4,8 +4,7 @@ import { deleteImageOnCloudinary } from "@/lib/helpers/cloudinary";
 import dbConnect from "@/lib/helpers/dbConnect";
 import { getErrorMessage } from "@/lib/helpers/getErrorMessage";
 import { CategoryModel } from "@/lib/models/categoryModdel";
-import { revalidatePath } from "next/cache";
-
+import { revalidatePath, updateTag } from "next/cache";
 
 //==============================
 export const deleteAction = async (id = "") => {
@@ -23,7 +22,6 @@ export const deleteAction = async (id = "") => {
     const categoryExist = await CategoryModel.findByIdAndDelete(id);
     categoryExist.picture?.public_id &&
       (await deleteImageOnCloudinary(categoryExist.picture?.public_id));
-    revalidatePath("/", "layout");
 
     return {
       message: `${categoryExist?.name} has been deleted successfully`,
@@ -32,5 +30,7 @@ export const deleteAction = async (id = "") => {
   } catch (error) {
     console.log(error);
     return { message: await getErrorMessage(error) };
+  } finally {
+    updateTag("category-list");
   }
 };
