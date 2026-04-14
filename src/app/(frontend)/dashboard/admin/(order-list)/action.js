@@ -3,7 +3,7 @@
 import dbConnect from "@/lib/helpers/dbConnect";
 import { getErrorMessage } from "@/lib/helpers/getErrorMessage";
 import { OrderModel } from "@/lib/models/OrderModel";
-import { revalidatePath, updateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 export const StatusAction = async (value, id) => {
   try {
