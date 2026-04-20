@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import Print from "@/lib/components/Print";
 
@@ -8,7 +8,7 @@ const ClientPage = ({ item }) => {
 
   useEffect(() => {
     setPrintItem(item);
-  }, [item]);
+  }, [item?._id]);
   //=============== print
   let contentRef = useRef();
   let printAddress = useReactToPrint({
@@ -17,21 +17,17 @@ const ClientPage = ({ item }) => {
   });
 
   return (
-    <div>
-      {/* <button
-        onClick={() => {
-          setPrintItem(item);
-        }}
-        className="btn btn-info"
-        disabled={item?.payment?.refund === "refunded"}
-      >
-        {printItem?._id === item?._id ? "OK" : "Set Print"}
-      </button>*/}
+    <div className="flex">
       <button
+        type="button"
         onClick={() => {
           printAddress();
         }}
-        className="btn btn-primary"
+        className={
+          item?.payment?.refund === "refunded"
+            ? "text-gray-400"
+            : "btn btn-link text-blue-600"
+        }
         disabled={item?.payment?.refund === "refunded"}
       >
         Print

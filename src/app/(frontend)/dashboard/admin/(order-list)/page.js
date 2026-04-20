@@ -1,4 +1,3 @@
-import moment from "moment";
 import Pagination from "@/lib/components/pagination";
 import Form from "next/form";
 import Image from "next/image";
@@ -8,11 +7,11 @@ import Status from "./status";
 import PriceFormat from "@/lib/components/PriceFormat";
 import ClientPage from "./clientPage";
 import SubmitButton from "@/lib/components/SubmitButton";
-import blurImg from "@/assets/blurr.webp";
 import { MdAddCall } from "react-icons/md";
 import Whatsapp from "@/lib/components/Whatsapp";
-import { deleteAction } from "./deleteAction";
+import { deleteAction } from "./action";
 import DateSSR from "@/lib/components/DateSSR";
+import { blurDataURL } from "@/lib/helpers/blurData";
 
 export const metadata = {
   title: "Order List",
@@ -20,10 +19,9 @@ export const metadata = {
 };
 const Orders = async ({ searchParams }) => {
   let spms = await searchParams;
-  let keyword = (await spms["keyword"]) ?? "";
-  let page = Number((await spms["page"]) ?? "1");
-  let perPage = Number((await spms["perPage"]) ?? "12");
-  // let start=(Number(page)-1)*Number(perPage)
+  let keyword = (await spms?.keyword) ?? "";
+  let page = Number((await spms?.page) ?? "1");
+  let perPage = Number((await spms?.perPage) ?? "12");
 
   // let userList = await userListAction(keyword);
   let res = await fetch(
@@ -38,17 +36,17 @@ const Orders = async ({ searchParams }) => {
     <div className="">
       <div className="my-3">
         <Form action={"/dashboard/admin/order-list"}>
-          <div className="join">
+          <div className="flex">
             <div className="">
               <input
                 name="keyword"
                 type="search"
-                className="input input-bordered join-item"
-                placeholder="Phone or Status"
+                className="input-000"
+                placeholder="Phone, Email or Status"
               />
             </div>
             <div className="">
-              <SubmitButton title={"Search"} design={"btn join-item"} />
+              <SubmitButton title={"Search"} design={"btn btn-search"} />
             </div>
           </div>
         </Form>
@@ -60,7 +58,7 @@ const Orders = async ({ searchParams }) => {
       <div className=" grid md:grid-cols-4 gap-3 p-2">
         {entries?.length &&
           entries?.map((item) => (
-            <div key={item?._id} className=" border p-1">
+            <div key={item?._id} className=" border border-gray-300  p-1">
               <div className="mb-2">
                 {entries?.length ? (
                   <div className="hover:bg-zinc-200 space-y-1">
@@ -111,7 +109,7 @@ const Orders = async ({ searchParams }) => {
                     <h5>
                       Total Payable: {<PriceFormat price={item.total} />}{" "}
                     </h5>
-                    <div className="flex justify-around">
+                    <div className="flex justify-between">
                       <ClientPage item={item} />
                       <DeleteModal
                         value={{
@@ -131,25 +129,26 @@ const Orders = async ({ searchParams }) => {
                 item?.products?.map((p, i) => {
                   return (
                     <div key={i} className=" g-5 mb-2 bg-base-200">
-                      <div className="grid grid-cols-12 g-4">
-                        <div className=" col-span-4 flex justify-center">
+                      <div className="grid grid-cols-4 g-4">
+                        <div className=" col-span-1">
                           <Link
-                            href={`${p?.picture[0]?.secure_url}`}
+                            className=""
+                            href={`${p?.picture?.at(0)?.secure_url}`}
                             target="_blank"
                           >
                             <Image
-                              blurDataURL={blurImg?.blurDataURL}
+                              blurDataURL={blurDataURL()}
                               placeholder="blur"
-                              src={`${p?.picture[0]?.secure_url}`}
+                              src={`${p?.picture?.at(0)?.secure_url}`}
                               priority={true}
-                              className="w-32 h-auto"
+                              className="w-auto h-32 object-contain"
                               width={200}
                               height={200}
-                              alt=""
+                              alt="image"
                             />
                           </Link>
                         </div>
-                        <div className=" col-span-8 ms-1 ">
+                        <div className=" col-span-3 ms-1 ">
                           <div>
                             <p>Name: {p?.name}</p>
                             <p>

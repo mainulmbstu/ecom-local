@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import Form from "next/form";
 import Image from "next/image";
@@ -10,8 +10,8 @@ import Pagination from "@/lib/components/pagination";
 import SubmitButton from "@/lib/components/SubmitButton";
 import { useAuth } from "@/lib/components/context";
 import { deleteAction, offerAction } from "./action";
-import blurImg from "@/assets/blurr.webp";
 import ProductModal from "./ProductModal";
+import { blurDataURL } from "@/lib/helpers/blurData";
 
 const ProductListClient = ({ value }) => {
   let { keyword, category, page, perPage, data } = value;
@@ -33,7 +33,7 @@ const ProductListClient = ({ value }) => {
       setProducts(tempArr);
     } else {
       let tempArr = products?.map((item) =>
-        item?._id === name ? { ...item, isChecked: checked } : item
+        item?._id === name ? { ...item, isChecked: checked } : item,
       );
       setProducts(tempArr);
     }
@@ -47,7 +47,7 @@ const ProductListClient = ({ value }) => {
       return Swal.fire(
         "Error",
         "Select product and input offer percentage",
-        "error"
+        "error",
       );
     }
     let data = await offerAction(selectIdArr, formData);
@@ -65,32 +65,32 @@ const ProductListClient = ({ value }) => {
         <div className="lg:flex relative z-300">
           <div className="m-2">
             <Form action="/dashboard/admin/create-product">
-              <div className="join">
+              <div className="flex">
                 <div className="">
                   <input
                     defaultValue={keyword}
                     name="keyword"
                     type="search"
-                    className="input input-bordered join-item"
+                    className="input-000"
                     placeholder="Product name"
                   />
                 </div>
                 <div className="">
-                  <SubmitButton title={"Search"} design={"btn join-item"} />
+                  <SubmitButton title={"Search"} design={"btn btn-search"} />
                 </div>
               </div>
             </Form>
           </div>
           <div className="m-2">
             <Form action="/dashboard/admin/create-product">
-              <div className="join">
+              <div className="flex">
                 <div className="">
                   <input
                     defaultValue={category}
                     name="category"
                     type="search"
                     list="categoryList"
-                    className="input input-bordered join-item"
+                    className="input-000"
                     placeholder="Select category"
                   />
                   <datalist id="categoryList">
@@ -103,25 +103,25 @@ const ProductListClient = ({ value }) => {
                   </datalist>
                 </div>
                 <div className="">
-                  <SubmitButton title={"Search"} design={"btn join-item"} />
+                  <SubmitButton title={"Search"} design={"btn btn-search"} />
                 </div>
               </div>
             </Form>
           </div>
           <div className="m-2">
             <Form action={clientAction}>
-              <div className="join">
+              <div className="flex">
                 <div className="">
                   <input
                     //   defaultValue={keyword}
                     name="offer"
                     type="number"
-                    className="input input-bordered join-item"
+                    className="input-000"
                     placeholder="Write offer percentage"
                   />
                 </div>
                 <div className="">
-                  <SubmitButton title={"Submit"} design={"btn join-item"} />
+                  <SubmitButton title={"Submit"} design={"btn btn-search"} />
                 </div>
               </div>
             </Form>
@@ -134,11 +134,10 @@ const ProductListClient = ({ value }) => {
           <input
             onChange={selectHandle}
             name="selectAll"
-            className=" mx-2  border border-secondary size-4"
+            className=" mx-2  border border-red-500 size-4"
             checked={
               products?.length &&
-              products.filter((item) => item?.isChecked !== true)
-                .length < 1
+              products.filter((item) => item?.isChecked !== true).length < 1
             }
             type="checkbox"
             id="all"
@@ -146,82 +145,76 @@ const ProductListClient = ({ value }) => {
           <label htmlFor="all"> Select All</label>
         </div>
 
-
         <div className=" grid lg:grid-cols-4 gap-2 p-1">
-
-          {
-            products?.map((item) => (
-              <div key={item?._id} className="hover:bg-zinc-200 flex gap-3 border">
-                <div>
-                  <input
-                    onChange={selectHandle}
-                    className=" ms-1"
-                    type="checkbox"
-                    name={item?._id}
-                    id={item?._id}
-                    checked={item?.isChecked || false}
-                  />
-                </div>
-
-                <div className="grow">
-                  <div>
-                    <Link href={item.picture[0]?.secure_url} target="_blank">
-                      <Image
-                        priority={true}
-                        blurDataURL={blurImg?.blurDataURL}
-                        placeholder="blur"
-                        className="w-50 h-auto"
-                        width={250}
-                        height="250"
-                        src={item.picture[0]?.secure_url}
-                        alt=""
-                      />
-                    </Link>
-                  </div>
-                  <h6>Name: {item.name}</h6>
-                  <p>Category: {item.category?.name}</p>
-                  <p>Quantity: {item.quantity}</p>
-                  <p>Price: {item.price}</p>
-                  <p className={item?.color?.length ? "" : "hidden"}>
-                    Color: {item?.color?.toString()}
-                  </p>
-                  <p className={item?.size?.length ? "" : "hidden"}>
-                    Size:{" "}
-                    {item?.size?.length &&
-                      item?.size?.map((item, i) => (
-                        <span key={i}>{item}, </span>
-                      ))}
-                  </p>
-                  <p>Offer: {item.offer}</p>
-                  <p>
-                    Added: {moment(new Date(item.createdAt)).format("DD-MM-YYYY")}
-                  </p>
-                  <p className="m-0">
-                    Description: {item?.description.substring(0, charLimit)}{" "}
-                    {item?.description?.length > charLimit ? "..." : ""}
-                  </p>
-                  <div className="flex justify-between">
-                    <div className="">
-                      <ProductModal
-                        editItem={JSON.stringify(item)}
-                      />
-                    </div>
-
-                    <div>
-                      <DeleteModal
-                        value={{
-                          id: item?._id.toString(),
-                          message: `Do you want to delete ${item?.name}`,
-                          action: deleteAction,
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-
+          {products?.map((item) => (
+            <div
+              key={item?._id}
+              className="hover:bg-zinc-200 flex gap-3 border border-zinc-300"
+            >
+              <div>
+                <input
+                  onChange={selectHandle}
+                  className=" ms-1"
+                  type="checkbox"
+                  name={item?._id}
+                  id={item?._id}
+                  checked={item?.isChecked || false}
+                />
               </div>
-            ))
-          }
+
+              <div className="grow  flex flex-col">
+                <div>
+                  <Link href={item.picture?.at(0)?.secure_url} target="_blank">
+                    <Image
+                      priority={true}
+                      blurDataURL={blurDataURL()}
+                      placeholder="blur"
+                      className="w-auto h-30 object-contain mx-auto"
+                      width={250}
+                      height="250"
+                      src={item.picture?.at(0)?.secure_url}
+                      alt=""
+                    />
+                  </Link>
+                </div>
+                <h6>Name: {item.name}</h6>
+                <p>Category: {item.category?.name}</p>
+                <p>Quantity: {item.quantity}</p>
+                <p>Price: {item.price}</p>
+                <p className={item?.color?.length ? "" : "hidden"}>
+                  Color: {item?.color?.toString()}
+                </p>
+                <p className={item?.size?.length ? "" : "hidden"}>
+                  Size:{" "}
+                  {item?.size?.length &&
+                    item?.size?.map((item, i) => <span key={i}>{item}, </span>)}
+                </p>
+                <p>Offer: {item.offer}</p>
+                <p>
+                  Added: {moment(new Date(item.createdAt)).format("DD-MM-YYYY")}
+                </p>
+                <p className="m-0">
+                  Description: {item?.description.substring(0, charLimit)}{" "}
+                  {item?.description?.length > charLimit ? "..." : ""}
+                </p>
+                <div className="flex justify-between mt-auto">
+                  <div className="">
+                    <ProductModal editItem={JSON.stringify(item)} />
+                  </div>
+
+                  <div>
+                    <DeleteModal
+                      value={{
+                        id: item?._id.toString(),
+                        message: `Do you want to delete ${item?.name}`,
+                        action: deleteAction,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
         <div className=" mt-3 ">
           <Pagination

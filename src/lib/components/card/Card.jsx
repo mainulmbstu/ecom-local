@@ -1,30 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import PriceFormat from "../PriceFormat";
-import { MdStar } from "react-icons/md";
 import AddToCartBTN from "./AddToCartBTN";
-import blurImg from "@/assets/blurr.webp";
+import { blurDataURL } from "@/lib/helpers/blurData";
 
 const Card = async ({ item }) => {
-  // let plainItem = { ...item, _id: item?._id.toString() };
-  // console.log(plainItem);
   let charLimit = 30;
 
   return (
-    <div className="h-full">
-      <div className="card shadow-xl h-full flex flex-col hover:cursor-pointer hover:bg-slate-300">
-        <figure className="h-40  md:max-h-80 relative">
+    <div className="h-full my-2">
+      <div className=" shadow-xl h-full flex flex-col cursor-pointer hover:bg-zinc-400 bg-zinc-300 dark:bg-base-300 p-1">
+        <figure className=" h-40 md:max-h-80 relative">
           <Image
-            fill
             priority={true}
-            // height={500}
-            // width={1000}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            blurDataURL={blurImg?.blurDataURL}
+            blurDataURL={blurDataURL()}
             placeholder="blur"
-            className=" object-contain "
-            src={item?.picture[0]?.secure_url}
+            src={item?.picture?.at(0)?.secure_url}
+            className=" object-contain h-40 w-auto mx-auto"
             alt="image"
+            width={200}
+            height={200}
           />{" "}
         </figure>
         <div className="relative">
@@ -49,7 +44,7 @@ const Card = async ({ item }) => {
             <p
               className={item?.offer ? "mb-2 text-red-500  text-lg" : "hidden"}
             >
-              <span className={"text-danger"}>
+              <span className={"text-red-500"}>
                 Offer Price:{" "}
                 {
                   <PriceFormat

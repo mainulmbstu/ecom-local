@@ -11,6 +11,7 @@ import { ProductModel } from "@/lib/models/productModel";
 import { CategoryModel } from "@/lib/models/categoryModdel";
 import { UserModel } from "@/lib/models/userModel";
 import { getCookieValue } from "@/lib/helpers/getCookieValue";
+import { createNestedCategory } from "@/lib/helpers/createNestedCategory";
 
 export async function POST(req) {
   let formData = await req.formData();
@@ -23,8 +24,17 @@ export async function POST(req) {
   let color = formData.get("color");
   let size = formData.get("size");
   let description = formData.get("description");
-  let userInfo = await getTokenData(await getCookieValue("token"));
+  let { userInfo } = await getTokenData(await getCookieValue("token"));
   let files = formData.getAll("file");
+  let sArr = [];
+  if (size) {
+    sArr = await size.split(",");
+  }
+
+  let cArr = [];
+  if (color) {
+    cArr = await color.split(",");
+  }
   try {
     if (!id) {
       if (!name || !category || !price || !quantity || !description) {
@@ -40,21 +50,12 @@ export async function POST(req) {
           }
           let { secure_url, public_id } = await uploadOnCloudinary(
             file,
-            "Product",
+            "ecomSharif",
           );
           url = [...url, { secure_url, public_id }];
         }
       }
 
-      let sArr = [];
-      if (size) {
-        sArr = await size.split(",");
-      }
-
-      let cArr = [];
-      if (color) {
-        cArr = await color.split(",");
-      }
       let product = new ProductModel();
 
       product.name = name;
@@ -94,14 +95,7 @@ export async function POST(req) {
           url = [...url, { secure_url, public_id }];
         }
       }
-      let cArr = [];
-      if (color) {
-        cArr = await size.split(",");
-      }
-      let sArr = [];
-      if (size) {
-        sArr = await size.split(",");
-      }
+
       if (name) itemExist.name = name;
       if (name) itemExist.slug = slugify(name);
       if (category) itemExist.category = category;
@@ -137,23 +131,23 @@ export async function GET(req) {
   let page = req.nextUrl.searchParams.get("page");
   let perPage = req.nextUrl.searchParams.get("perPage");
   let skip = (page - 1) * perPage;
-  let keyCat = await CategoryModel.findOne({ slug: catSlug });
-  if (keyCat?.parentId) {
-    keyCat = await CategoryModel.find({
-      $or: [{ _id: keyCat?._id }, { parentId: keyCat?._id }],
-    });
-  } else {
-    if (catSlug) {
-      let category = await CategoryModel.find({});
-      let categoryList = await createCategories(category); // function below
-      let filtered = await categoryList.filter(
-        (parent) => parent?.slug === catSlug,
-      );
-      keyCat = getPlainCatList(filtered);
-    }
-  }
+  let keyCat;
+
   try {
     await dbConnect();
+    keyCat = await CategoryModel.findOne({ slug: catSlug });
+    if (keyCat?.parentId) {
+      keyCat = await CategoryModel.find({
+        $or: [{ _id: keyCat?._id }, { parentId: keyCat?._id }],
+      });
+    } else {
+      let category = await CategoryModel.find({});
+      let categoryList = await createNestedCategory(category);
+
+      let filtered = categoryList?.filter((parent) => parent?.slug === catSlug);
+      keyCat = getPlainCatList(filtered);
+    }
+
     const total = await ProductModel.find(
       keyCat?.length
         ? {
@@ -190,32 +184,10 @@ export async function GET(req) {
   }
 }
 
-let createCategories = async (category, parentId = null) => {
-  let categoryList = [];
-  let filteredCat;
-  if (parentId == null) {
-    filteredCat = await category.filter((item) => item.parentId == undefined);
-  } else {
-    filteredCat = await category.filter((item) => item.parentId == parentId);
-  }
-  for (let v of filteredCat) {
-    categoryList.push({
-      _id: v._id,
-      name: v.name,
-      slug: v.slug,
-      user: v.user,
-      picture: v.picture,
-      parentId: v.parentId,
-      updatedAt: v.updatedAt,
-      children: await createCategories(category, v._id),
-    });
-  }
-  return categoryList;
-};
 let getPlainCatList = (filtered, list = []) => {
   for (let v of filtered) {
     list.push(v);
-    if (v.children.length > 0) {
+    if (v.children?.length > 0) {
       getPlainCatList(v.children, list);
     }
   }

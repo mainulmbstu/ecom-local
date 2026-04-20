@@ -30,8 +30,8 @@ export const metadata = {
     icon: [
       {
         media: "(prefers-color-scheme:light)",
-        url: "/check.png",
-        href: "/check.png",
+        url: "/dummy.jpeg",
+        href: "/dummy.jpeg",
       },
       {
         media: "(prefers-color-scheme:dark)",
@@ -99,7 +99,7 @@ export default function RootLayout({ children }) {
             </Suspense>
             <Suspense fallback={<h2>Loading</h2>}></Suspense>
             <Offline />
-            <div className="py-16  flex  flex-col min-h-screen dark:text-white dark:bg-black">
+            <div className="py-16 dark:text-slate-300 dark:bg-black">
               <div className="px-1">{children}</div>
               <div className=" mt-auto">{<Footer />}</div>
             </div>

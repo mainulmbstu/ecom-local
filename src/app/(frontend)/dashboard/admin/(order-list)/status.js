@@ -32,9 +32,9 @@ const Status = ({ status, id }) => {
         onChange={(e) => roleHandle(e.target.value, id)}
         defaultValue={status}
         name="role"
-        className="select h-5"
+        className=" h-5 border border-zinc-300 "
       >
-        <option disabled={true}>{status}</option>
+        <option disabled={true}>{"status"}</option>
         <option>Not Process</option>
         <option>Processing</option>
         <option>shipped</option>

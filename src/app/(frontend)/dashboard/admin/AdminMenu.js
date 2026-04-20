@@ -11,7 +11,6 @@ import { usePathname } from "next/navigation";
 const AdminMenu = () => {
   let path = usePathname();
   let menus = [
-
     {
       name: "Product",
       href: "/dashboard/admin/create-product",
@@ -27,26 +26,28 @@ const AdminMenu = () => {
       href: "/dashboard/admin/profile",
       icon: <ImProfile />,
     },
-
   ];
 
   return (
     <div className="card p-2">
-      <Link
+      <div
         className={
           path === "/dashboard/admin"
-            ? "bg-blue-300 p-3"
-            : "hover:bg-zinc-300 p-3"
+            ? "bg-blue-300 p-2 list-none"
+            : "hover:bg-zinc-300 p-3 "
         }
-        href={"/dashboard/admin"}
       >
-        Dashboard
-      </Link>
-      <ul className="menu rounded-box w-full">
+        {" "}
+        <Link href={"/dashboard/admin"}>Dashboard</Link>
+      </div>
+      <ul className=" rounded-box w-full mt-3">
         {menus.map((item, i) => (
           <li key={i} className={item.href === path ? "bg-blue-300" : ""}>
-            <Link href={item.href}>
-              {item.icon}
+            <Link
+              href={item.href}
+              className=" flex gap-2 p-2 hover:bg-zinc-300"
+            >
+              <span className="mt-1.5">{item.icon}</span>
               {item.name}
             </Link>
           </li>

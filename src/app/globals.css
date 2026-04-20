@@ -30,8 +30,39 @@ body {
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 @import "tailwindcss";
-@plugin "daisyui";
+/*@plugin "daisyui";*/
 /* @plugin "tailwindcss-animate"; */
+
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+[data-theme="dark"] {
+    --background: black;
+    --foreground: white;
+}
+
+/* custom theme app e use na korle  */
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --color: white;
+  }
+} */
+
+body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+@utility black-theme {
+    color: var(--color-slate-500);
+    background-color: black;
+}
 
 @theme {
     --text-tiny: 0.625rem;
@@ -48,10 +79,7 @@ body {
 .bg-test {
     background-color: var(--test-400);
 }
-@utility black-theme {
-    background-color: rgb(0, 0, 0);
-    color: #ffffff;
-}
+
 /* working */
 @utility card {
     background-color: #e6e6e6;
@@ -102,50 +130,14 @@ body {
   } */
     hr {
         margin: 12px 0;
-    }
-    input,
-    textarea,
-    select {
-        width: 100%;
-        background-color: white;
+        color: var(--color-slate-500);
     }
 }
-
-:root {
-    --background: #ffffff;
-    --foreground: #171717;
-}
-
-[data-theme="dark"] {
-    --background: black;
-    --foreground: white;
-}
-
-/* custom theme app e use na korle  */
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --color: white;
-  }
-} */
-
-body {
-    color: var(--foreground);
-    background: var(--background);
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-input:focus {
-    outline-width: 0;
-    border-color: #df5d5d;
-}
-
+/*
 th {
-    font-weight: bolder;
-    background-color: aquamarine;
-}
+    font-weight: 800;
+    background-color: var(--color-base-300);
+}*/
 /*
 * {
   scrollbar-gutter: stable;
@@ -153,4 +145,181 @@ th {
 
 .size-font {
     font-size: clamp(8px, 1vw, 100px);
+}
+
+@utility btn {
+    /*background-color: var(--color-gray-200);*/
+    padding: 8px 13px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* .btn:hover {
+  transition: all 200ms ease-in;
+  background-color: var(--color-gray-300);
+} */
+
+@utility btn-black {
+    background-color: var(--color-neutral-900);
+    color: var(--color-slate-300);
+}
+
+.btn-black:hover {
+    transition: all 200ms ease-in;
+    background-color: var(--color-neutral-700);
+}
+
+@utility btn-error {
+    background-color: var(--color-red-500);
+}
+
+.btn-error:hover {
+    transition: all 200ms ease-in;
+    background-color: var(--color-red-600);
+}
+
+@utility btn-blue {
+    background-color: var(--color-blue-500);
+}
+
+.btn-blue:hover {
+    transition: all 200ms ease-in;
+    background-color: var(--color-blue-600);
+}
+
+@utility btn-success {
+    background-color: var(--color-green-600);
+}
+
+.btn-success:hover {
+    transition: all 200ms ease-in;
+    background-color: var(--color-green-700);
+}
+
+@utility btn-warning {
+    background-color: var(--color-yellow-500);
+}
+
+.btn-warning:hover {
+    transition: all 200ms ease-in;
+    background-color: var(--color-yellow-600);
+}
+
+@utility btn-pink {
+    background-color: var(--color-pink-500);
+}
+
+.btn-pink:hover {
+    transition: all 200ms ease-in;
+    background-color: var(--color-pink-700);
+}
+
+@utility btn-violet {
+    background-color: var(--color-violet-700);
+    color: var(--color-slate-300);
+}
+
+.btn-violet:hover {
+    transition: all 200ms ease-in;
+    background-color: var(--color-violet-600);
+}
+
+@utility btn-primary {
+    background-color: var(--color-indigo-700);
+    color: var(--color-slate-300);
+}
+
+.btn-primary:hover {
+    transition: all 200ms ease-in;
+    background-color: var(--color-indigo-600);
+}
+
+@utility btn-search {
+    background-color: var(--color-zinc-300);
+    @media (prefers-color-scheme: dark) {
+        background-color: var(--color-neutral-900)
+            /* oklch(82.8% 0.189 84.429) */;
+    }
+}
+
+.btn-search:hover {
+    transition: all 200ms ease-in;
+    background-color: var(--color-gray-300);
+}
+
+@utility btn-link {
+    text-decoration-line: underline;
+    color: var(--color-red-600);
+    padding: 8px 13px;
+    cursor: pointer;
+}
+
+@utility btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 2px !important;
+    border-radius: 100% !important;
+    background-color: var(--color-gray-200);
+}
+
+@utility btn-outline {
+    border: 1px black solid;
+}
+
+.btn:active {
+    background-color: var(--color-gray-400);
+}
+
+.swalmodal {
+    max-width: 500px;
+    /*margin-left: auto !important;*/
+    /*margin: 0 auto auto 0;*/
+}
+
+/*
+@media screen and (min-width: 761px) {
+    .swalmodal {
+        width: 23% !important;
+    }
+}*/
+
+@utility bg-base-400 {
+    background-color: var(--color-zinc-500);
+    @media (prefers-color-scheme: dark) {
+        background-color: var(--color-neutral-950)
+            /* oklch(82.8% 0.189 84.429) */;
+    }
+}
+@utility bg-base-300 {
+    background-color: var(--color-zinc-300);
+    @media (prefers-color-scheme: dark) {
+        background-color: var(--color-neutral-950)
+            /* oklch(82.8% 0.189 84.429) */;
+    }
+}
+@utility bg-base-200 {
+    background-color: var(--color-zinc-200);
+    @media (prefers-color-scheme: dark) {
+        background-color: var(--color-neutral-900)
+            /* oklch(82.8% 0.189 84.429) */;
+    }
+}
+@utility bg-base-100 {
+    background-color: var(--color-slate-100);
+    @media (prefers-color-scheme: dark) {
+        background-color: var(--color-neutral-800)
+            /* oklch(82.8% 0.189 84.429) */;
+    }
+}
+@utility input-000 {
+    border: 1px black solid;
+    padding: 7px;
+    width: 100%;
+    border-radius: 5px;
+    border-color: var(--color-zinc-300);
+    background-color: var(--color-slate-100);
+    @media (prefers-color-scheme: dark) {
+        background-color: var(--color-neutral-800)
+            /* oklch(82.8% 0.189 84.429) */;
+    }
 }

@@ -3,6 +3,7 @@
 import React from "react";
 import { useAuth } from "../context";
 import toast from "react-hot-toast";
+import { swalModal } from "@/lib/helpers/swalModal";
 
 const AddToCartBTN = ({ data }) => {
   let item = data ? JSON.parse(data) : {};
@@ -10,8 +11,8 @@ const AddToCartBTN = ({ data }) => {
   let { cart, setCart } = useAuth();
   return (
     <div>
-      {" "}
       <button
+        type="button"
         onClick={() => {
           let cartIds = cart.map((it) => it._id);
           if (cartIds.includes(item?._id)) {
@@ -19,9 +20,10 @@ const AddToCartBTN = ({ data }) => {
           }
           setCart([item, ...cart]);
           localStorage.setItem("cart", JSON.stringify([item, ...cart]));
-          toast.success(`${item?.name} added to Cart`);
+          // toast.success(`${item?.name} added to Cart`);
+          swalModal(`${item?.name} added to Cart`);
         }}
-        className="btn btn-info mt-auto mb-1"
+        className="btn btn-blue mt-auto"
       >
         Add to cart
       </button>

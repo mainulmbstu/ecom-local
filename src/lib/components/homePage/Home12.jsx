@@ -5,11 +5,11 @@ import { allProductAction } from "./action";
 import Card from "../card/Card";
 import Link from "next/link";
 
-const Home12 = async ({ searchParams, promise }) => {
+const Home12 = async ({ searchParams }) => {
   let spms = await searchParams;
-  let keyword = (await spms["keyword"]) ?? "";
-  let page = Number((await spms["page"]) ?? "1");
-  let perPage = Number((await spms["perPage"]) ?? "30");
+  let keyword = (await spms?.keyword) ?? "";
+  let page = Number((await spms?.page) ?? "1");
+  let perPage = Number((await spms?.perPage) ?? "30");
 
   let data = await allProductAction(keyword, page, perPage);
   // let postList = JSON.parse(data?.postList) ?? [];

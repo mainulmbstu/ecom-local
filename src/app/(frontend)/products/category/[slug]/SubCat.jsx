@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "@/lib/components/context";
+import { blurDataURL } from "@/lib/helpers/blurData";
 
 const SubCat = ({ slug }) => {
   let { catPlain, catNested } = useAuth();
@@ -13,8 +14,8 @@ const SubCat = ({ slug }) => {
       ? catNested
       : catItem && catPlain.filter((item) => item.parentId === catItem._id);
   return (
-    <div className={subCat?.length ? '' : 'hidden'}>
-      <h4 className=" uppercase" >{slug}</h4>
+    <div className={subCat?.length ? "" : "hidden"}>
+      <h4 className=" uppercase">{slug}</h4>
       <div className="grid grid-cols-2 my-2 md:flex md:flex-wrap ">
         {subCat?.length ? (
           subCat.map((item) => (
@@ -23,6 +24,8 @@ const SubCat = ({ slug }) => {
                 <Link href={`/products/category/${item?.slug}`} className="">
                   <Image
                     src={item?.picture?.secure_url}
+                    blurDataURL={blurDataURL()}
+                    placeholder="blur"
                     priority={true}
                     className="w-32 min-h-20 h-15 m-auto object-contain"
                     width={200}

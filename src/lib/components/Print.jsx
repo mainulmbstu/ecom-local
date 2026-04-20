@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import PriceFormat from "./PriceFormat";
 import moment from "moment";
@@ -44,23 +46,27 @@ const Print = ({ printItem }, ref) => {
       </div>
       <hr />
       <div className="row">
-        <table className="table ">
+        <table className="w-full border-separate border-spacing-x-0.5 border-spacing-y-1 ">
           <thead>
-            <tr>
+            <tr className="bg-base-300 py-2 h-10 text-center">
               <th scope="col">#</th>
-              <th scope="col">Product</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Color</th>
+              <th scope="col">Size</th>
               <th scope="col">Unit Price</th>
               <th scope="col">Quantity</th>
               <th scope="col">Sub-Total</th>
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className="bg-base-100">
             {printItem ? (
               printItem?.products?.map((item, i) => (
-                <tr key={item?._id} className="hover:bg-zinc-200">
+                <tr key={item?._id} className="text-center">
                   <td>{i + 1}</td>
                   <td>{item.name}</td>
+                  <td>{item.color?.at(0) ?? "N/A"}</td>
+                  <td>{item.size?.at(0) ?? "N/A"}</td>
                   <td>
                     {
                       <PriceFormat

@@ -1,16 +1,10 @@
 "use server";
 
-import {
-  deleteImageOnCloudinary,
-  uploadOnCloudinary,
-} from "@/lib/helpers/cloudinary";
 import dbConnect from "@/lib/helpers/dbConnect";
 import { getErrorMessage } from "@/lib/helpers/getErrorMessage";
 import { CommentModel } from "@/lib/models/CommentModel";
 import { cacheLife, cacheTag, revalidatePath, updateTag } from "next/cache";
-import { getTokenData } from "@/lib/helpers/getTokenData";
 import { ProductModel } from "@/lib/models/productModel";
-import { getCookieValue } from "@/lib/helpers/getCookieValue";
 import { CategoryModel } from "@/lib/models/categoryModdel";
 
 export const detailsAction = async (pid) => {
@@ -52,7 +46,9 @@ export const similarItemsAction = async (pid) => {
 };
 
 //=====================================
-export const commentAction = async (pid, name, comment) => {
+export const commentAction = async (pid, formData) => {
+  let name = formData.get("name");
+  let comment = formData.get("review");
   try {
     if (!pid) {
       return { message: "pid is required" };

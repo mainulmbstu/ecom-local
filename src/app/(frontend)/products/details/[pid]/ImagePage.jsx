@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import blurimg from "@/assets/blurr.webp";
+import { blurDataURL } from "@/lib/helpers/blurData";
 
-const ImagePage = ({ picture, blurData }) => {
+const ImagePage = ({ picture }) => {
   const [img, setImg] = useState("");
   const [index, setindex] = useState(0);
 
@@ -19,7 +19,7 @@ const ImagePage = ({ picture, blurData }) => {
                   setImg(item?.secure_url);
                   setindex(i);
                 }}
-                blurDataURL={blurimg?.blurDataURL}
+                blurDataURL={blurDataURL()}
                 placeholder="blur"
                 src={`${item?.secure_url}`}
                 alt="img"
@@ -39,7 +39,7 @@ const ImagePage = ({ picture, blurData }) => {
             fill
             priority={true}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 90vw"
-            blurDataURL={blurimg?.blurDataURL}
+            blurDataURL={blurDataURL()}
             placeholder="blur"
             className=" object-contain"
             src={img || (picture?.length && picture?.at(0)?.secure_url)}

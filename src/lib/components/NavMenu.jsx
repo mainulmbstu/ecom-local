@@ -8,13 +8,20 @@ import { IoIosArrowDown } from "react-icons/io";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "./context";
 import Image from "next/image";
-import Cookies from "js-cookie";
+import { useIdleTimer } from "react-idle-timer";
 
 const NavMenu = () => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
   const [drop2, setdrop2] = useState(false);
   const [mounted, setMounted] = useState(false);
-  let { userInfo, setUserInfo, setToken, cart } = useAuth();
+  let { userInfo, logout, cart } = useAuth();
+
+  useIdleTimer({
+    timeout: 15 * 60 * 1000, // 15 minutes
+    onIdle: () => userInfo && logout(),
+    debounce: 500,
+  });
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -110,11 +117,7 @@ const NavMenu = () => {
                     <li>
                       <Link
                         onClick={menuClose}
-                        className={
-                          path.startsWith(`/dashboard`)
-                            ? "bg-zinc-300  w-full inline-block p-2 hover:bg-zinc-400 underline"
-                            : "w-full inline-block p-2 hover:bg-zinc-300"
-                        }
+                        className={`w-full inline-block p-2 hover:bg-zinc-400 ${path.startsWith(`/dashboard`) ? "bg-blue-300" : ""} `}
                         href={
                           userInfo?.role === "admin"
                             ? "/dashboard/admin"
@@ -126,14 +129,10 @@ const NavMenu = () => {
                     </li>
                     <li>
                       <button
-                        onClick={() => {
-                          Cookies.remove("token");
-                          setUserInfo(null);
-                          setToken(null);
-                          router.refresh("/");
-                        }}
+                        type="button"
+                        onClick={logout}
                         className={
-                          "w-full inline-block md:text-left p-2 hover:bg-zinc-300 cursor-pointer"
+                          "w-full inline-block md:text-left p-2 hover:bg-zinc-400 cursor-pointer"
                         }
                       >
                         Logout
@@ -159,25 +158,26 @@ const NavMenu = () => {
         </nav>
       </div>
 
-      <div className="me-5 text-lg ">
+      <div className="me-3 text-lg min-w-20">
         <Link href={"/cart"} className=" relative">
           Cart{" "}
-          <div className="badge badge-sm badge-secondary absolute -top-2.5 left-4 ">
+          <div className="bg-red-500 text-amber-50 text-sm text-center size-5 rounded-full absolute bottom-3 -right-2">
             {cart?.length}
           </div>
         </Link>
       </div>
 
-      <div className="md:hidden cursor-pointer flex space-x-5">
-        {/** biome-ignore lint/a11y/noStaticElementInteractions: <explanation> */}
-        {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-        <span onClick={() => setisMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? (
-            <CgCloseR className=" hover:scale-125 transition-all text-2xl " />
-          ) : (
-            <FaBars className=" hover:scale-125 transition-all text-2xl " />
-          )}
-        </span>
+      <div className="md:hidden cursor-pointer">
+        <button type="button" onClick={() => setisMenuOpen(!isMenuOpen)}>
+          {" "}
+          <span>
+            {isMenuOpen ? (
+              <CgCloseR className=" hover:scale-125 transition-all text-2xl " />
+            ) : (
+              <FaBars className=" hover:scale-125 transition-all text-2xl " />
+            )}
+          </span>
+        </button>
       </div>
     </div>
   );

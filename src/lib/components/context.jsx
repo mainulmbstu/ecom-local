@@ -2,8 +2,12 @@
 
 import { createContext, use, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { Axios } from "../helpers/AxiosInstance";
-import { getTokenData } from "../helpers/getTokenData";
+import { Axios } from "@/lib/helpers/AxiosInstance";
+import { getTokenData } from "@/lib/helpers/getTokenData";
+import { useRouter } from "next/navigation";
+import { swalModal } from "@/lib/helpers/swalModal";
+import { FaHSquare } from "react-icons/fa";
+// import { useIdleTimer } from "react-idle-timer";
 
 export const AuthContext = createContext();
 
@@ -13,16 +17,35 @@ export const AuthProvider = ({ children }) => {
   const [catPlain, setCatPlain] = useState([]);
   const [catNested, setCatNested] = useState("");
   const [cart, setCart] = useState([]);
+  const [loginExpireTime, setLoginExpireTime] = useState(24 * 60 * 60 * 1000);
+  let router = useRouter();
 
   let getUserInfo = async () => {
     if (token) {
       let tokenData = await getTokenData(token);
-      setUserInfo(tokenData);
+      setUserInfo(tokenData?.userInfo);
+      setLoginExpireTime(tokenData?.loginExpireTime ?? 24 * 60 * 60 * 1000);
     } else {
       setUserInfo(null);
     }
   };
+  let logout = () => {
+    Cookies.remove("token");
+    setUserInfo(null);
+    setToken(null);
+    router.refresh("/");
+    swalModal("You have been logged out", "success", false);
+  };
+  //====================================
 
+  //=================================
+  let autoLogout = () => {
+    const timeoutId = setTimeout(() => {
+      logout();
+    }, loginExpireTime - Date.now());
+
+    return () => clearTimeout(timeoutId);
+  };
   let catPlainFunc = async () => {
     // let res = await fetch(`/api/both/category-list`, {
     //   cache: "force-cache",
@@ -36,12 +59,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     let storageCart = localStorage.getItem("cart");
     if (storageCart) setCart(JSON.parse(storageCart));
-  }, []);
 
-  useEffect(() => {
     token && getUserInfo();
     catPlainFunc();
-  }, [token]);
+    autoLogout();
+  }, [token, loginExpireTime]);
 
   return (
     <AuthContext
@@ -55,6 +77,7 @@ export const AuthProvider = ({ children }) => {
         catNested,
         cart,
         setCart,
+        logout,
       }}
     >
       {children}

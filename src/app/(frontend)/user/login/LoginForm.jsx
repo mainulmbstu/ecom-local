@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 // import { useRouter, useSearchParams } from "next/navigation";
 import { useRouter } from "nextjs-toploader/app";
+import { swalModal } from "@/lib/helpers/swalModal";
 
 const LoginForm = () => {
   let { setToken, setUserInfo } = useAuth();
@@ -24,7 +25,8 @@ const LoginForm = () => {
     let data = await loginAction(formData);
     if (data?.success) {
       // Swal.fire("Success", data?.message, "success");
-      toast.success(data?.message);
+      // toast.success(data?.message);
+      swalModal(data?.message);
       setToken(data?.token);
       setUserInfo(JSON.parse(data?.userInfo));
       router.push(lastPath ? lastPath : "/");
@@ -43,7 +45,7 @@ const LoginForm = () => {
         <h2>Login Form</h2>
         <Form
           action={clientAction}
-          className=" p-4 w-full md:w-4/5 lg:w-3/5 card"
+          className=" p-4 w-full md:w-4/5 lg:w-3/5 bg-base-300 max-w-100"
         >
           {/* <Image src='/login.svg' width={100} height={200} alt="" /> */}
           <div className="mt-3">
@@ -51,11 +53,12 @@ const LoginForm = () => {
               Email
             </label>
             <input
-              className="input"
+              className="input-000"
               type="email"
               id="email"
               name="email"
               required
+              placeholder="Enter your email"
             />
           </div>
           <div className="mt-3 relative">
@@ -63,11 +66,12 @@ const LoginForm = () => {
               password
             </label>
             <input
-              className="input"
+              className="input-000"
               type={showpass ? "text" : "password"}
               id="password"
               name="password"
               required
+              placeholder="Enter your password"
             />
             {/* <p className=" text-red-500" aria-live="polite">
                 {state?.message}
@@ -95,7 +99,6 @@ const LoginForm = () => {
               Forgot Password ?
             </Link>
           </div>
-
         </Form>
       </div>
     </div>

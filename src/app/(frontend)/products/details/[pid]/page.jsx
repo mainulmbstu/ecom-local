@@ -4,13 +4,13 @@
 import React, { Suspense } from "react";
 import { detailsAction } from "./action";
 import moment from "moment";
-import getBase64 from "@/lib/helpers/plaiceholder";
 import PriceFormat from "@/lib/components/PriceFormat";
 import ImagePage from "./ImagePage";
 import SimilarItems from "./SimilarItems";
 import AddToCartBTN from "@/lib/components/card/AddToCartBTN";
 import CommentModal from "./commentModal";
 import CommentData from "./commentData";
+import DateSSR2 from "@/lib/components/DateSSR2";
 
 export const generateMetadata = async ({ params }) => {
   let { pid } = await params;
@@ -25,14 +25,13 @@ const details = async ({ params }) => {
   // console.log(search);
   let { pid } = await params;
   let { details } = await detailsAction(pid);
-  let blurData = await getBase64(details?.picture[0]?.secure_url);
 
   return (
     <div className="md:px-4">
       <div className="">
         <div className="">
           <div className="">
-            <ImagePage blurData={blurData} picture={details?.picture} />
+            <ImagePage picture={details?.picture} />
 
             <div className="">
               <div>
@@ -65,12 +64,12 @@ const details = async ({ params }) => {
                 <p>Description: {details?.description} </p>
                 <p>
                   Added:
-                  {moment(details?.createdAt).format("DD-MMM-YYYY")}, (
+                  <DateSSR2 date={details?.createdAt} time={true} />, (
                   {moment(details?.createdAt).fromNow()})
                 </p>
                 <p>
                   Updated:
-                  {moment(details?.updatedAt).format("DD-MMM-YYYY")}, (
+                  <DateSSR2 date={details?.updatedAt} time={true} />, (
                   {moment(details?.updatedAt).fromNow()})
                 </p>
               </div>
@@ -80,8 +79,8 @@ const details = async ({ params }) => {
         </div>
         <hr />
         <div className="my-2">
-          <Suspense fallback={<h5>Loading</h5>}>
-            <CommentModal pid={pid} />
+          <Suspense fallback={<h2>Loading</h2>}>
+            <CommentModal pid={pid} title="Review" design="btn-success " />
           </Suspense>
         </div>
         <div className=" ">

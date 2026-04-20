@@ -10,26 +10,34 @@ import blogBanner from "@/assets/blog.svg";
 import { Axios } from "@/lib/helpers/AxiosInstance";
 import ProgressBar from "@/lib/components/ProgressBar";
 import { useRouter } from "next/navigation";
+import { swalModal } from "@/lib/helpers/swalModal";
 
 const CategoryModal = ({
   editItem,
   title = "Edit",
   design = "btn-link text-blue-600",
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   let value = editItem && JSON.parse(editItem);
-  let ref = useRef();
   let [loading, setLoading] = useState(false);
   let [picture, setPicture] = useState("");
   const [progress, setProgress] = useState(0);
   let { catPlain, catPlainFunc } = useAuth();
   let router = useRouter();
+  const inputRef = useRef(null);
 
-  // console.log(value);
+  useEffect(() => {
+    if (isOpen) {
+      // Focus the input when the modal opens
+      inputRef.current?.focus();
+    }
+  }, [isOpen]);
+  //===================================
   let clientAction = async (formData) => {
     formData.append("id", value?._id || "");
+    if (value) setIsOpen(false);
     try {
       setLoading(true);
-
       let { data } = await Axios.post("/api/admin/create-category", formData, {
         onUploadProgress: (progressEvent) => {
           const prog = Math.round(
@@ -38,16 +46,17 @@ const CategoryModal = ({
           setProgress(prog);
         },
       });
-
       if (data?.success) {
-        // Swal.fire("Success", data?.message, "success");
-        toast.success(data?.message);
+        // toast.success(data?.message);
+        // alert(data?.message);
+        // Swal.fire("Success", data?.message, "success",);
         catPlainFunc();
         router.refresh("/dashboard/admin/create-category");
         setProgress(0);
+        swalModal(data?.message);
       } else {
-        // Swal.fire("Error", data?.message, "error");
-        toast.error(data?.message);
+        swalModal(data?.message, "error");
+        // toast.error(data?.message);
       }
     } catch (err) {
       console.log(err);
@@ -58,40 +67,42 @@ const CategoryModal = ({
 
   return (
     <div className="">
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
       <button
+        type="button"
         disabled={loading}
         className={`btn ${design} `}
-        onClick={() => ref.current.showModal()}
-        // onClick={() => document.getElementById("my_modal_1").showModal()}
+        onClick={() => setIsOpen(true)}
       >
         {loading ? "Submitting" : title}
       </button>
-      <dialog ref={ref} id="my_modal_1" className="modal mt-15 ">
-        <div className="modal-box">
-          <div className="">
-            <h3 className="text-lg font-bold">{title}</h3>
-            <div className="mb-4 ms-2 flex justify-evenly">
-              <div className="">
-                <Image
-                  src={
-                    picture
-                      ? URL.createObjectURL(picture)
-                      : value
-                        ? value?.picture?.secure_url
-                        : blogBanner
-                  }
-                  alt="image"
-                  className=" h-50 w-auto object-contain"
-                  height={100}
-                  width={100}
-                />
-              </div>
+      {/* modal*/}
+      <div
+        className={`bg-gray-700/80 w-screen  h-screen fixed top-0 left-0 grid  justify-start  md:justify-center items-start md:items-center z-999 overflow-scroll  ${
+          isOpen ? " " : "scale-0"
+        }`}
+      >
+        {/* modal box*/}
+        <div
+          className={`w-screen max-w-md transition-all duration-1000  shadow-sm shadow-sky-300 p-3 bg-base-100 relative   ${isOpen ? " opacity-100 " : " opacity-0"}`}
+        >
+          <h4 className="text-start">{title}</h4>
+          <div className=" p-2  bg-base-300">
+            <div className=" ms-2 pb-1">
+              <Image
+                src={
+                  picture
+                    ? URL.createObjectURL(picture)
+                    : value
+                      ? value?.picture?.secure_url
+                      : blogBanner
+                }
+                alt="image"
+                className=" h-50 w-auto object-contain mx-auto"
+                height={100}
+                width={100}
+              />
             </div>
-            <Form
-              action={clientAction}
-              className=" p-4  bg-slate-300 shadow-lg shadow-blue-300"
-            >
+            <Form action={clientAction} className="text-start">
               <div className="mt-3">
                 <label className="block" htmlFor="name">
                   Select Image
@@ -100,10 +111,11 @@ const CategoryModal = ({
                   onChange={(e) => {
                     setPicture(e.target.files[0]);
                   }}
-                  className="input"
+                  className="input-000"
                   type="file"
                   id="file"
                   name="file"
+                  multiple
                 />
               </div>
               <div className="mt-3">
@@ -111,15 +123,17 @@ const CategoryModal = ({
                   Category Name
                 </label>
                 <input
+                  ref={inputRef}
                   defaultValue={value?.name}
-                  className="input"
+                  className="input-000"
                   type="text"
                   id="name"
                   name="name"
                   required
+                  placeholder="Enter category name"
                 />
               </div>
-              <div>
+              <div className="mt-3">
                 <label className="block" htmlFor="title">
                   Select Parent Category
                 </label>
@@ -127,12 +141,14 @@ const CategoryModal = ({
                   // onChange={(e) => roleHandle(e.target.value, id)}
                   // defaultValue={'Select Category'}
                   name="parentId"
-                  className="select w-full"
+                  className="input-000"
                 >
                   <option value={value?.parentId?._id || ""}>
                     {value?.parentId?.name || "It is top category"}
                   </option>
-                  <option value="">{"Make it top category"}</option>
+                  <option className={!value?.parentId ? "hidden" : ""} value="">
+                    {"Make it top category"}
+                  </option>
                   {catPlain?.length &&
                     catPlain
                       .filter((sorted) => sorted._id !== value?._id)
@@ -143,25 +159,33 @@ const CategoryModal = ({
                       ))}
                 </select>
               </div>
-              <div className="mt-3">
+
+              <div className="mt-3 relative">
                 <ProgressBar progress={progress} color={"bg-blue-400"} />
-                <SubmitButton title={"Submit"} design={"btn-accent"} />
+                <div className="flex">
+                  <SubmitButton title={"Submit"} design={"btn-primary"} />
+                  <button
+                    type="button"
+                    className="btn btn-error absolute right-0"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </Form>
-          </div>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-error absolute right-2 top-5">
-                ✕
+            <div className="my-2">
+              <button
+                type="button"
+                className="btn  btn-error btn-circle absolute top-1 right-4"
+                onClick={() => setIsOpen(false)}
+              >
+                x
               </button>
-              {/* if there is a button in form, it will close the modal */}
-              {/* <button type="submit" className="btn btn-error">
-                Close
-              </button> */}
-            </form>
+            </div>
           </div>
         </div>
-      </dialog>
+      </div>
     </div>
   );
 };

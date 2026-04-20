@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getErrorMessage } from "@/lib/helpers/getErrorMessage";
 import dbConnect from "@/lib/helpers/dbConnect";
-import { deleteImageOnCloudinary, uploadOnCloudinary } from "@/lib/helpers/cloudinary";
+import {
+  deleteImageOnCloudinary,
+  uploadOnCloudinary,
+} from "@/lib/helpers/cloudinary";
 import slugify from "slugify";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { getTokenData } from "@/lib/helpers/getTokenData";
@@ -14,7 +17,8 @@ export async function POST(req) {
   let name = formData.get("name");
   let parentId = formData.get("parentId") || null;
   let file = formData.get("file");
-  let userInfo = await getTokenData(await getCookieValue("token"));
+
+  let { userInfo } = await getTokenData(await getCookieValue("token"));
   try {
     if (!id) {
       if (!name) {
@@ -33,7 +37,7 @@ export async function POST(req) {
           return Response.json({
             success: false,
             message: `File too large, maximum 3 mb`,
-          })
+          });
         }
         let { secure_url, public_id } = await uploadOnCloudinary(
           file,
@@ -54,8 +58,6 @@ export async function POST(req) {
         message: `Category ${name} has been created successfully`,
       });
     } else {
-
-
       await dbConnect();
       const itemExist = await CategoryModel.findById(id);
       if (file?.size) {
@@ -63,7 +65,7 @@ export async function POST(req) {
           (await deleteImageOnCloudinary(itemExist.picture?.public_id));
         let { secure_url, public_id } = await uploadOnCloudinary(
           file,
-          "ecomNextCategory",
+          "ecomSharif",
         );
         itemExist.picture = { secure_url, public_id };
       }
@@ -87,6 +89,5 @@ export async function POST(req) {
     // revalidatePath("/dashboard/admin/create-category");
     // layout means 'path/*'
     // revalidatePath("/post/category/[category]", 'page');  // // page means 'exact path'
-
   }
 }

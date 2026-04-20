@@ -2,9 +2,9 @@ import * as motion from "motion/react-client";
 
 import Pagination from "@/lib/components/pagination";
 import Form from "next/form";
-import Loadmore from "@/lib/components/Loadmore";
 import Card from "@/lib/components/card/Card";
 import SubCat from "./SubCat";
+import SubmitButton from "@/lib/components/SubmitButton";
 
 export const generateMetadata = async ({ params }) => {
   let { slug } = await params;
@@ -16,9 +16,9 @@ export const generateMetadata = async ({ params }) => {
 const CategoryPage = async ({ params, searchParams }) => {
   let { slug } = await params;
   let spms = await searchParams;
-  let keyword = (await spms["keyword"]) ?? "";
-  let page = Number((await spms["page"]) ?? "1");
-  let perPage = Number((await spms["perPage"]) ?? "30");
+  let keyword = (await spms?.keyword) ?? "";
+  let page = Number((await spms?.page) ?? "1");
+  let perPage = Number((await spms?.perPage) ?? "30");
 
   let res = await fetch(
     `${process.env.BASE_URL}/api/admin/product?keyword=${keyword}&category=${slug}&page=${page}&perPage=${perPage}`,
@@ -33,18 +33,17 @@ const CategoryPage = async ({ params, searchParams }) => {
     <div className="p-2">
       <div className={slug === "all-categories" ? "hidden" : "my-3"}>
         <Form action={`/products/category/${slug} `}>
-          <div className="join">
+          <div className="flex">
             <div className="">
               <input
-                defaultValue={keyword}
                 name="keyword"
                 type="search"
-                className="input input-bordered join-item"
+                className="input-000"
                 placeholder="Product name"
               />
             </div>
             <div className="">
-              <button className="btn join-item">Search</button>
+              <SubmitButton title={"Search"} design={"btn btn-search"} />
             </div>
           </div>
         </Form>
@@ -77,16 +76,10 @@ const CategoryPage = async ({ params, searchParams }) => {
           )}
         </div>
       </div>
-      {/* <Loadmore
-        total={data?.total}
-        page={page}
-        perPage={perPage}
-        spms1="keyword"
-        spms1Value={keyword}
-      /> */}
+
       <div className=" mt-3 ">
         <Pagination
-          total={data?.total}
+          total={data?.total || 1}
           page={page}
           perPage={perPage}
           spms1="keyword"

@@ -186,7 +186,7 @@ export const CartPage = () => {
                         <input
                           type="checkbox"
                           // defaultChecked
-                          className="checkbox checkbox-success"
+                          className="size-5"
                           onChange={(e) =>
                             cartItemHandle(e.target.checked, item)
                           }
@@ -230,29 +230,6 @@ export const CartPage = () => {
                           }
                         </p>
                         <p className="m-0">Category: {item?.category?.name} </p>
-                        {/* <p
-                          className={
-                            item?.color?.length ? "m-0 py-2 w-50" : "hidden"
-                          }
-                        >
-                          <select
-                            ref={ref1}
-                            onChange={(e) =>
-                              colorHandle(item._id, e.target.value)
-                            }
-                            name=""
-                            id={item?._id}
-                            className="py-2 border border-slate-200 text-black"
-                          >
-                            <option value={""}>Select Color</option>
-                            {item?.color?.length &&
-                              item?.color.map((clr) => (
-                                <option key={clr} value={clr}>
-                                  {clr}
-                                </option>
-                              ))}
-                          </select>
-                        </p>*/}
                         <div className={"m-0 py-2 flex gap-4 flex-wrap"}>
                           <p>Color: </p>
                           {item?.color
@@ -333,7 +310,7 @@ export const CartPage = () => {
                         <button
                           type="submit"
                           onClick={() => removeCartItem(item._id)}
-                          className="btn btn-link mb-2 text-red-500 "
+                          className="btn btn-link mb-2"
                         >
                           Remove
                         </button>
@@ -412,11 +389,11 @@ export const CartPage = () => {
           <div className="p-3">
             <Form
               action={clientAction}
-              className=" p-4  bg-slate-300 shadow-lg shadow-blue-300 card dark:text-white"
+              className=" p-4  bg-base-300 shadow-lg shadow-blue-300 "
             >
               <div className="mt-3">
                 <input
-                  className="input"
+                  className="input-000"
                   type="text"
                   id="name"
                   name="name"
@@ -426,7 +403,7 @@ export const CartPage = () => {
               </div>
               <div className="mt-3">
                 <input
-                  className="input"
+                  className="input-000"
                   type="number"
                   minLength="11"
                   id="phone"
@@ -439,7 +416,7 @@ export const CartPage = () => {
               <div className="mt-3">
                 <textarea
                   rows="6"
-                  className="input"
+                  className="input-000"
                   type="text"
                   id="address"
                   name="address"
@@ -449,7 +426,10 @@ export const CartPage = () => {
               </div>
 
               <div className="mt-3">
-                <SubmitButton title={"Checkout"} design={"btn-accent"} />
+                <SubmitButton
+                  title={"Checkout"}
+                  design={"btn-success w-full"}
+                />
               </div>
             </Form>
           </div>

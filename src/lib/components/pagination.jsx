@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React from "react";
 
 const Pagination = ({
   page,
@@ -19,31 +18,33 @@ const Pagination = ({
   //   let perPage = searchParams.get("perPage") ?? "3";
   let totalPage = Math.ceil(total / perPage);
   let pageArr = Array.from({ length: totalPage }, (v, i) => i + 1);
-  if (totalPage == 1) {
+  if (totalPage === 1) {
     return null;
   }
 
   return (
     <div>
       <button
+        type="button"
         disabled={page <= 1}
         onClick={() => {
           router.push(
             `${path}?${spms1}=${spms1Value}&${spms2}=${spms2Value}&page=${
               page - 1
-            }&perPage=${perPage}`
+            }&perPage=${perPage}`,
           );
         }}
-        className="btn btn-accent"
+        className="btn btn-primary disabled:opacity-50"
       >
         Previous
       </button>
       <span className={page <= 11 ? "hidden" : ""}>
         <button
-          className="btn"
+          type="button"
+          className="btn "
           onClick={() => {
             router.push(
-              `${path}?${spms1}=${spms1Value}&${spms2}=${spms2Value}&page=1&perPage=${perPage}`
+              `${path}?${spms1}=${spms1Value}&${spms2}=${spms2Value}&page=1&perPage=${perPage}`,
             );
           }}
         >
@@ -53,19 +54,20 @@ const Pagination = ({
       </span>
       {pageArr.map((item, i) => (
         <button
+          type="button"
           key={i}
           onClick={() => {
             router.push(
-              `${path}?${spms1}=${spms1Value}&${spms2}=${spms2Value}&page=${item}&perPage=${perPage}`
+              `${path}?${spms1}=${spms1Value}&${spms2}=${spms2Value}&page=${item}&perPage=${perPage}`,
             );
           }}
           // className={item==page?'my-3 btn btn-primary':'btn'}
           className={
             item < page - 10 || item > page + 10
               ? "hidden"
-              : item == page
-              ? "my-3 btn btn-primary"
-              : "btn"
+              : item === page
+                ? "my-3 btn btn-blue"
+                : "btn"
           }
         >
           {item}
@@ -74,10 +76,11 @@ const Pagination = ({
       <span className={page >= totalPage - 10 ? "hidden" : ""}>
         ......
         <button
+          type="button"
           className="btn"
           onClick={() => {
             router.push(
-              `${path}?${spms1}=${spms1Value}&${spms2}=${spms2Value}&page=${totalPage}&perPage=${perPage}`
+              `${path}?${spms1}=${spms1Value}&${spms2}=${spms2Value}&page=${totalPage}&perPage=${perPage}`,
             );
           }}
         >
@@ -85,15 +88,16 @@ const Pagination = ({
         </button>
       </span>
       <button
+        type="button"
         disabled={page >= totalPage}
         onClick={() => {
           router.push(
             `${path}?${spms1}=${spms1Value}&${spms2}=${spms2Value}&page=${
               page + 1
-            }&perPage=${perPage}`
+            }&perPage=${perPage}`,
           );
         }}
-        className="btn btn-accent"
+        className="btn btn-primary disabled:opacity-50"
       >
         Next
       </button>

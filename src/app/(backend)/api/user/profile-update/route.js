@@ -27,19 +27,19 @@ export async function POST(req) {
     await dbConnect();
     const userExist = await UserModel.findOne({ email });
     if (!userExist) {
-      return { message: "User not found" };
+      throw new Error("User not found");
     }
 
     if (file?.size) {
       if (file?.size > 3 * 1024 * 1000) {
-        return {
-          success: false,
-          message: `File too large, maximum 3 mb`,
-        };
+        throw new Error("File too large, maximum 3 mb");
       }
       userExist.picture?.public_id &&
         (await deleteImageOnCloudinary(userExist.picture?.public_id));
-      let { secure_url, public_id } = await uploadOnCloudinary(file, "profile");
+      let { secure_url, public_id } = await uploadOnCloudinary(
+        file,
+        "ecomSharif",
+      );
       userExist.picture = { secure_url, public_id };
     }
     if (name) userExist.name = name;
@@ -50,7 +50,6 @@ export async function POST(req) {
     (await cookies()).delete("token");
     (await cookies()).delete("userInfo");
     await userExist.save();
-    revalidateTag('user-list', 'max')
     // console.log(userExist);
     let credential = {
       email,
@@ -59,14 +58,18 @@ export async function POST(req) {
       <h3>Your profile  in ${process.env.BASE_URL} has been Updated successfully.</h3>
       Thanks for staying with us`,
     };
-   await mailer(credential);
+    await mailer(credential);
 
     return Response.json({
       success: true,
       message: `Profile Update successful, Please login again`,
     });
   } catch (error) {
+    // if u use redirect in try block
+    // if (error.message === "NEXT_REDIRECT") throw error;
     console.log(error);
     return Response.json({ message: await getErrorMessage(error) });
+  } finally {
+    revalidateTag("user-list", { expires: 0 });
   }
 }

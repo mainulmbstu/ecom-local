@@ -13,12 +13,12 @@ export const generateMetadata = async () => {
 };
 const Offers = async ({ searchParams }) => {
   let spms = await searchParams;
-  let keyword = (await spms["keyword"]) ?? "";
-  let page = Number((await spms["page"]) ?? "1");
-  let perPage = Number((await spms["perPage"]) ?? "30");
+  let keyword = (await spms?.keyword) ?? "";
+  let page = Number((await spms?.page) ?? "1");
+  let perPage = Number((await spms?.perPage) ?? "30");
 
   let res = await fetch(
-    `${process.env.BASE_URL}/api/user/offers?keyword=${keyword}&page=${page}&perPage=${perPage}`
+    `${process.env.BASE_URL}/api/user/offers?keyword=${keyword}&page=${page}&perPage=${perPage}`,
   );
   let data = await res.json();
   let entries = data?.list;
@@ -26,18 +26,20 @@ const Offers = async ({ searchParams }) => {
     <div className="p-2">
       <div className="my-3">
         <Form action={`/products/offers`}>
-          <div className="join">
+          <div className="flex">
             <div className="">
               <input
                 defaultValue={keyword}
                 name="keyword"
                 type="search"
-                className="input input-bordered join-item"
+                className="input-000"
                 placeholder="Product name"
               />
             </div>
             <div className="">
-              <button className="btn join-item">Search</button>
+              <button type="submit" className="btn btn-search">
+                Search
+              </button>
             </div>
           </div>
         </Form>
@@ -63,16 +65,10 @@ const Offers = async ({ searchParams }) => {
           <p>No data found</p>
         )}
       </div>
-      {/* <Loadmore
-        total={data?.total}
-        page={page}
-        perPage={perPage}
-        spms1="keyword"
-        spms1Value={keyword}
-      /> */}
+
       <div className=" mt-3 ">
         <Pagination
-          total={data?.total}
+          total={data?.total || 1}
           page={page}
           perPage={perPage}
           spms1="keyword"
