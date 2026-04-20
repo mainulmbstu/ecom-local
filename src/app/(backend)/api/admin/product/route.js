@@ -26,6 +26,7 @@ export async function POST(req) {
   let description = formData.get("description");
   let { userInfo } = await getTokenData(await getCookieValue("token"));
   let files = formData.getAll("file");
+  //=====
   let sArr = [];
   if (size) {
     sArr = await size.split(",");
@@ -79,7 +80,7 @@ export async function POST(req) {
     } else {
       await dbConnect();
       const itemExist = await ProductModel.findById(id);
-      if (itemExist.picture[0]?.public_id) {
+      if (itemExist.picture?.at(0)?.public_id) {
         for (let pic of itemExist.picture) {
           await deleteImageOnCloudinary(pic?.public_id);
         }
@@ -88,6 +89,9 @@ export async function POST(req) {
       if (files[0]?.size) {
         url = [];
         for (let file of files) {
+          if (file?.size > 3 * 1024 * 1000) {
+            throw new Error("File too large, maximum 3 mb`");
+          }
           let { secure_url, public_id } = await uploadOnCloudinary(
             file,
             "ecomSharif",

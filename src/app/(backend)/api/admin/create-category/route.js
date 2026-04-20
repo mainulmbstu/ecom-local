@@ -34,10 +34,7 @@ export async function POST(req) {
       let url;
       if (file?.size) {
         if (file?.size > 3 * 1024 * 1000) {
-          return Response.json({
-            success: false,
-            message: `File too large, maximum 3 mb`,
-          });
+          throw new Error("File too large, maximum 3 mb");
         }
         let { secure_url, public_id } = await uploadOnCloudinary(
           file,
@@ -61,6 +58,9 @@ export async function POST(req) {
       await dbConnect();
       const itemExist = await CategoryModel.findById(id);
       if (file?.size) {
+        if (file?.size > 3 * 1024 * 1000) {
+          throw new Error("File too large, maximum 3 mb");
+        }
         itemExist.picture?.public_id &&
           (await deleteImageOnCloudinary(itemExist.picture?.public_id));
         let { secure_url, public_id } = await uploadOnCloudinary(
