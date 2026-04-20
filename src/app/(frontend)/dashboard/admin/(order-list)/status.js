@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/lib/components/context";
-import React, { useState } from "react";
+import { useState } from "react";
 import { StatusAction } from "./action";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
