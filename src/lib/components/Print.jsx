@@ -6,16 +6,6 @@ import moment from "moment";
 import { address } from "@/lib/helpers/constants";
 
 const Print = ({ printItem }, ref) => {
-  let totalFrac = printItem?.products?.reduce((previous, current) => {
-    return (
-      previous +
-      (current?.price - (current?.price * current?.offer) / 100) *
-        current.amount
-    );
-  }, 0);
-
-  let total = Math.round(totalFrac);
-
   return (
     <div ref={ref} className={printItem ? "mt-5 px-5" : "hidden"}>
       <div className=" text-center mb-4">
@@ -96,12 +86,13 @@ const Print = ({ printItem }, ref) => {
         </table>
         <hr />
         <div className="flex  justify-end pe-5">
-          <p>Total product price: {<PriceFormat price={total} />}</p>
+          <p>
+            Total product price:{" "}
+            {<PriceFormat price={printItem.total - printItem.charge} />}
+          </p>
         </div>
         <div className="flex  justify-end pe-5">
-          <p>
-            Delivery charge: {<PriceFormat price={printItem.total - total} />}
-          </p>
+          <p>Delivery charge: {<PriceFormat price={printItem.charge} />}</p>
         </div>
         <div className="flex justify-end pe-5">
           <h4>Grand Total: {<PriceFormat price={printItem.total} />}</h4>

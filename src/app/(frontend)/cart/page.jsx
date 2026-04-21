@@ -9,6 +9,7 @@ import { checkoutAction } from "./action";
 import SubmitButton from "@/lib/components/SubmitButton";
 import Form from "next/form";
 import Swal from "sweetalert2";
+import { swalModal } from "@/lib/helpers/swalModal";
 
 export const CartPage = () => {
   let { cart, setCart } = useAuth();
@@ -145,10 +146,10 @@ export const CartPage = () => {
     try {
       let data = await checkoutAction(formData, selectedCart, total, charge);
       if (data?.success) {
-        Swal.fire("Success", data?.message, "success");
+        swalModal(data?.message);
         // toast.success(data?.message);
       } else {
-        Swal.fire("Error", data?.message, "error");
+        swalModal(data?.message, "error");
         // toast.error(data?.message);
       }
     } catch (error) {

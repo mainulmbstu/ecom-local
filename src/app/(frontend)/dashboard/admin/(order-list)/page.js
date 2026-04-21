@@ -161,8 +161,8 @@ const Orders = async ({ searchParams }) => {
                             </p>
                             <p>Category: {p?.category?.name} </p>
                             <p>{`Quantity: ${p?.amount}`}</p>
-                            <p>{`Color: ${p?.color[0]}`}</p>
-                            <p>{`Size: ${p?.size[0]}`}</p>
+                            <p>{`Color: ${p?.color?.at(0)}`}</p>
+                            <p>{`Size: ${p?.size?.at(0)}`}</p>
                             <h6>
                               Sub-Total:{" "}
                               {
