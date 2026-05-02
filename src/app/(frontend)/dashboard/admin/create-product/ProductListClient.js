@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Form from "next/form";
 import Image from "next/image";
@@ -218,7 +218,7 @@ const ProductListClient = ({ value }) => {
         </div>
         <div className=" mt-3 ">
           <Pagination
-            total={data?.total ||1}
+            total={data?.total || 1}
             page={page}
             perPage={perPage}
             spms1="keyword"
