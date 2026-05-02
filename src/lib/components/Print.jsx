@@ -65,7 +65,7 @@ const Print = ({ printItem }, ref) => {
                     }
                   </td>
                   <td>{item.amount}</td>
-                  <td>
+                  <td className="text-right pe-5">
                     {
                       <PriceFormat
                         price={

@@ -218,7 +218,7 @@ const ProductListClient = ({ value }) => {
         </div>
         <div className=" mt-3 ">
           <Pagination
-            total={data?.total}
+            total={data?.total ||1}
             page={page}
             perPage={perPage}
             spms1="keyword"
